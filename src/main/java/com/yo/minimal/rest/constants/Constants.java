@@ -1,6 +1,6 @@
 package com.yo.minimal.rest.constants;
 
-public  final class Constants {
+public final class Constants {
 
     public Constants() {
     }
@@ -18,5 +18,4 @@ public  final class Constants {
     public final static String UPLOADS_FOLDER_ITEM = System.getProperty("pathPhotoItem");
     public final static String PHOTO_ITEM_NOT_DISP = System.getProperty("fotonodispItem");
     public final static String PHOTO_CUSTO_NOT_DISP = System.getProperty("fotonodisp");
-
 }

@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,7 @@ public class ItemRestController {
      ****************************************/
     @GetMapping("get/item-all")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> findItemAll() {
 
         List<Item> itemList;
@@ -113,6 +115,7 @@ public class ItemRestController {
      * @return Guardar Producto
      ****************************************/
     @PostMapping("post")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseBody
     public ResponseEntity<?> saveItemById(@RequestParam(value = "file", required = false) MultipartFile itemPhoto
             , @Valid String itemInput
@@ -169,6 +172,7 @@ public class ItemRestController {
      ****************************************/
     @PutMapping("put")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateItem(@RequestParam(value = "file", required = false) MultipartFile imagePhoto
             , @Valid String itemInput
             , @ModelAttribute Item itemDto
@@ -229,6 +233,7 @@ public class ItemRestController {
      ****************************************/
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("change/status")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> updateItemStatusById(@Valid String itemInput
             , @ModelAttribute Item itemDto
             , BindingResult bindingResult) throws IOException {

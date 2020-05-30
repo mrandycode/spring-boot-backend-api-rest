@@ -22,9 +22,8 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.IOException;
 
-import java.time.LocalDate;
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -84,13 +83,13 @@ public class CustomerRestController {
             response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
             response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR);
             response.put("error", "Causa : " + ex.getMostSpecificCause());
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         if (customer == null) {
             response.put("message", "El cliente con el ID: " + id.toString() + " No existe en la base de datos");
             response.put("cod", HttpStatus.NOT_FOUND.value());
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
 
         if (customer.getPhoto().isEmpty()) {
@@ -112,10 +111,9 @@ public class CustomerRestController {
             , @ModelAttribute Customer customerDto
             , BindingResult bindingResult) throws DataAccessException, TransactionSystemException, IOException {
 
+        Map<String, Object> response = new HashMap<>();
         /**JSON to JavaObject (Customer)**/
         Customer customer = new ObjectMapper().readValue(customerInput, Customer.class);
-
-        Map<String, Object> response = new HashMap<>();
         Customer customerNew;
 
         // De esta manera realizamos enviamos las validaciones del BackEnd al frontEnd
@@ -127,7 +125,7 @@ public class CustomerRestController {
                     ).collect(Collectors.toList());
 
             response.put("errors", errorList);
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -235,7 +233,7 @@ public class CustomerRestController {
             response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
             response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.put("error", "Causa : " + ex.getMostSpecificCause());
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
 
@@ -244,7 +242,7 @@ public class CustomerRestController {
         response.put("customer", customerUpdated);
 
         /***El método Save sirve para insertar o Actualizar***/
-        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
 
     }
 
@@ -273,7 +271,7 @@ public class CustomerRestController {
                     ).collect(Collectors.toList());
 
             response.put("errors", errorList);
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -284,7 +282,7 @@ public class CustomerRestController {
             response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
             response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.put("error", "Causa : " + ex.getMostSpecificCause());
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
 
@@ -292,7 +290,7 @@ public class CustomerRestController {
             response.put("message", "El cliente con la identificación: " + customer.getNacionality() + "-"
                     + customer.getIdentificationId() + " No existe en la base de datos");
             response.put("cod", HttpStatus.NOT_FOUND.value());
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
 
         response.put("message", "El cliente " + customer.getNacionality() + "-" + customer.getIdentificationId() + " se encuentra en la Base de Datos");
@@ -300,7 +298,7 @@ public class CustomerRestController {
         response.put("customer", customerNow);
 
         /***El método Save sirve para insertar o Actualizar***/
-        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
 
     }
 

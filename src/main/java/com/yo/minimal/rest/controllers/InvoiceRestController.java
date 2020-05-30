@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,7 +126,6 @@ public class InvoiceRestController {
         try {
 
             // TODO: QUITAR CABLES
-            invoice.setCreateDate(new Date());
             invoice.setUser("acevallos");
             invoice.setSubTotalInvoice(invoice.getTotalInvoice());
             invoiceNew = iInvoiceServices.saveInvoice(invoice);

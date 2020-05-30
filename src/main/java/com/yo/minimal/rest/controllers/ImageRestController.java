@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.IOException;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
@@ -55,7 +54,7 @@ public class ImageRestController {
      * @return Cargar Foto
      ****************************************/
     @GetMapping(value = "get/upload/{filename:.+}/{type}")
-    public ResponseEntity<Resource> viewPhotoGet( @PathVariable String filename
+    public ResponseEntity<Resource> viewPhotoGet(@PathVariable String filename
             , @PathVariable String type
             , HttpServletRequest request) throws IOException {
 

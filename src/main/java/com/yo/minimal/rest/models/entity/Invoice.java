@@ -1,13 +1,12 @@
 package com.yo.minimal.rest.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -19,10 +18,9 @@ public class Invoice implements Serializable {
 
     private String observation;
 
+    @Basic
     @Column(name = "create_date")
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd/MM/yyyy H:m:s")
-    private Date createDate;
+    private Timestamp createDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
@@ -31,7 +29,7 @@ public class Invoice implements Serializable {
 
     @PrePersist
     private void prePersist() {
-        createDate = new Date();
+        createDate = new Timestamp(System.currentTimeMillis());
     }
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -39,51 +37,51 @@ public class Invoice implements Serializable {
     private List<InvoiceDetail> invoiceDetail;
 
     @NotNull
-    @Column(name="total_invoice", columnDefinition = "double default 0.0")
+    @Column(name = "total_invoice", columnDefinition = "double default 0.0")
     private Double totalInvoice;
 
     @NotNull
-    @Column(name="subtotal_invoice", columnDefinition = "double default 0.0")
+    @Column(name = "subtotal_invoice", columnDefinition = "double default 0.0")
     private Double subTotalInvoice;
 
     private String user;
 
-    @Column(name="pos_payment")
+    @Column(name = "pos_payment")
     private Double posPayment;
 
-    @Column(name="pos_payment_id")
+    @Column(name = "pos_payment_id")
     @Size(max = 50)
     private String posPaymentId;
 
-    @Column(name="cash_payment")
+    @Column(name = "cash_payment")
     private Double cashPayment;
 
-    @Column(name="cash_international")
+    @Column(name = "cash_international")
     private Double cashInternational;
 
-    @Column(name="net_bank_payment")
+    @Column(name = "net_bank_payment")
     private Double netBankPayment;
 
-    @Column(name="net_bank_payment_id")
+    @Column(name = "net_bank_payment_id")
     @Size(max = 50)
     private String netBankPaymentId;
 
-    @Column(name="bank_check_payment")
+    @Column(name = "bank_check_payment")
     private Double bankCheckPayment;
 
-    @Column(name="bank_check_id")
+    @Column(name = "bank_check_id")
     @Size(max = 50)
     private String bankCheckId;
 
-    @Column(name="bank_check_issuing ")
+    @Column(name = "bank_check_issuing ")
     @Size(max = 50)
-    private String bankCheckissuing ;
+    private String bankCheckissuing;
 
     public static final String NamedQuery_discountInventoryFromInvoicedetail = "discountInventoryFromInvoicedetail";
 
     // Constructor sin argumentos
     public Invoice() {
-       super();
+        super();
     }
 
     public Long getId() {
@@ -102,12 +100,12 @@ public class Invoice implements Serializable {
         this.observation = observation;
     }
 
-    public Date getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreateDate() {
+        this.createDate = new Timestamp(System.currentTimeMillis());
     }
 
     public Customer getCustomer() {
