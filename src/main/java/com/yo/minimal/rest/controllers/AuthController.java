@@ -1,3 +1,4 @@
+
 package com.yo.minimal.rest.controllers;
 
 import com.yo.minimal.rest.DTO.JwtDto;
@@ -6,9 +7,10 @@ import com.yo.minimal.rest.DTO.NewUserDto;
 import com.yo.minimal.rest.constants.enums.RoleName;
 import com.yo.minimal.rest.models.entity.RoleUser;
 import com.yo.minimal.rest.models.entity.User;
-import com.yo.minimal.rest.models.services.IRoleUserServices;
-import com.yo.minimal.rest.models.services.IUserServices;
+import com.yo.minimal.rest.models.services.interfaces.IRoleUserServices;
+import com.yo.minimal.rest.models.services.interfaces.IUserServices;
 import com.yo.minimal.rest.security.JWT.JwtProvider;
+import com.yo.minimal.rest.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -103,7 +105,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUserDto loginUserDto, BindingResult bindingResult) {
 
-            Map<String, Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
 
         if (bindingResult.hasErrors()) {
             List<String> errorList = bindingResult.getFieldErrors()
@@ -124,7 +126,9 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        JwtDto jwtDTO = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+        UserPrincipal userPrincipal = (UserPrincipal) userDetails;
+        JwtDto jwtDTO = new JwtDto(jwt, userDetails.getUsername(), userPrincipal.getName(), userPrincipal.getLastname(),
+                userDetails.getAuthorities());
 
         return new ResponseEntity<>(jwtDTO, HttpStatus.OK);
     }

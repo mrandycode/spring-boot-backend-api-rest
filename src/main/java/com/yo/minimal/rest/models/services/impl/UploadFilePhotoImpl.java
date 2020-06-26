@@ -1,6 +1,7 @@
-package com.yo.minimal.rest.models.services;
+package com.yo.minimal.rest.models.services.impl;
 
 import com.yo.minimal.rest.constants.Constants;
+import com.yo.minimal.rest.models.services.interfaces.IUploadFilePhoto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;

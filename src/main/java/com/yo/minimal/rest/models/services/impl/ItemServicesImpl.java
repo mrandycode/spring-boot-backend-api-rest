@@ -1,7 +1,8 @@
-package com.yo.minimal.rest.models.services;
+package com.yo.minimal.rest.models.services.impl;
 
 import com.yo.minimal.rest.models.entity.Item;
 import com.yo.minimal.rest.models.iDao.IItemDao;
+import com.yo.minimal.rest.models.services.interfaces.IItemServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,5 +39,8 @@ public class ItemServicesImpl implements IItemServices {
     @Transactional
     public String discountInventoryFromInvoicedetail(String invoice) { return iItemDao.discountInventoryFromInvoicedetail(invoice); }
 
+    @Override
+    @Transactional
+    public String addInventoryFromInvoicedetail(String invoice) { return iItemDao.addtInventoryFromInvoicedetail(invoice); }
 
 }

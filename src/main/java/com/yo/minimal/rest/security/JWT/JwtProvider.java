@@ -18,10 +18,12 @@ public class JwtProvider {
     @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${jwt.expiration}")
+//    @Value("${jwt.expiration}")
+    @Value("500")
     private int expiration;
 
     public String generateToken(Authentication authentication) {
+        System.out.println(new Date(new Date().getTime() + expiration * 1000));
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Jwts.builder().setSubject(userPrincipal.getUsername())
                 .setIssuedAt(new Date())

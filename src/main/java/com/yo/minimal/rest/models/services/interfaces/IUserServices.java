@@ -1,6 +1,5 @@
-package com.yo.minimal.rest.models.services;
+package com.yo.minimal.rest.models.services.interfaces;
 
-import com.yo.minimal.rest.models.entity.ForeignCurrency;
 import com.yo.minimal.rest.models.entity.User;
 
 import java.util.List;

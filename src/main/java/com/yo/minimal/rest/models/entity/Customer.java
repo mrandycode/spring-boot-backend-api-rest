@@ -9,9 +9,8 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name="customers")
+@Table(name = "customers")
 public class Customer implements Serializable {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -19,38 +18,38 @@ public class Customer implements Serializable {
 
     @NotNull
     @NotEmpty
-    @Size(min=4, max=30)
+    @Size(min = 4, max = 30)
     private String name;
 
     @NotNull
     @NotEmpty
-    @Size(min=4, max=30)
+    @Size(min = 4, max = 30)
     private String lastname;
 
     @NotNull
     @NotEmpty
     private String birthday;
 
-    @Column(name="place_born")
-    @Size(min=4, max=100)
+    @Column(name = "place_born")
+    @Size(min = 4, max = 100)
     private String placeBorn;
 
     @NotNull
     @NotEmpty
-    @Size(min=1, max = 1)
+    @Size(min = 1, max = 1)
     private String nacionality;
 
     @NotNull
     @NotEmpty
-    @Size(min=1, max = 1)
+    @Size(min = 1, max = 1)
     private String genre;
 
-    @Column(name="identification_id")
+    @Column(name = "identification_id")
     @NotEmpty
     @NotNull
     private String identificationId;
 
-    @Column(name="create_date")
+    @Column(name = "create_date")
     private String createDate;
 
     @NotNull
@@ -60,37 +59,37 @@ public class Customer implements Serializable {
 
     private String photo;
 
-    @Size(min=1, max = 255)
+    @Size(min = 1, max = 255)
     private String address;
 
-    @Size(min=1, max = 255)
+    @Size(min = 1, max = 255)
     private String addressTwo;
 
-    @Size(min=1, max = 255)
+    @Size(min = 1, max = 255)
     private String addressThree;
 
-    @Column(name="local_phone")
-    @Size(min=1, max = 50)
+    @Column(name = "local_phone")
+    @Size(min = 1, max = 50)
     private String localPhone;
 
-    @Column(name="mobile_phone")
-    @Size(min=1, max = 50)
+    @Column(name = "mobile_phone")
+    @Size(min = 1, max = 50)
     private String mobilePhone;
 
-    @Column(name="work_phone")
-    @Size(min=1, max = 50)
+    @Column(name = "work_phone")
+    @Size(min = 1, max = 50)
     private String workPhone;
 
-    @Column(name="socialmedia_one")
-    @Size(min=1, max = 100)
+    @Column(name = "socialmedia_one")
+    @Size(min = 1, max = 100)
     private String socialMediaOne;
 
-    @Size(min=1, max = 100)
-    @Column(name="socialmedia_two")
+    @Size(min = 1, max = 100)
+    @Column(name = "socialmedia_two")
     private String socialMediTwo;
 
-    @Column(name="socialmedia_three")
-    @Size(min=1, max = 50)
+    @Column(name = "socialmedia_three")
+    @Size(min = 1, max = 50)
     private String socialMediaThree;
 
     // Constructor sin argumentos.

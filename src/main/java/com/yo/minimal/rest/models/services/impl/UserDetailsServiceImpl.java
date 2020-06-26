@@ -1,4 +1,4 @@
-package com.yo.minimal.rest.models.services;
+package com.yo.minimal.rest.models.services.impl;
 
 import com.yo.minimal.rest.models.entity.User;
 import com.yo.minimal.rest.security.UserPrincipal;

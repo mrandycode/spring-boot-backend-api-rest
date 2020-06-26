@@ -1,7 +1,8 @@
-package com.yo.minimal.rest.models.services;
+package com.yo.minimal.rest.models.services.impl;
 
 import com.yo.minimal.rest.models.entity.Customer;
 import com.yo.minimal.rest.models.iDao.ICustomerDao;
+import com.yo.minimal.rest.models.services.interfaces.ICustomerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class CustomerServicesImpl implements ICustomerServices{
+public class CustomerServicesImpl implements ICustomerServices {
 
     @Autowired
     private ICustomerDao iCustomerDao;

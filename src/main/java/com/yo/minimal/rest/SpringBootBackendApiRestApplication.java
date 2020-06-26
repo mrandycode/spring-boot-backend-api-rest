@@ -1,6 +1,6 @@
 package com.yo.minimal.rest;
 
-import com.yo.minimal.rest.models.services.IUploadFilePhoto;
+import com.yo.minimal.rest.models.services.interfaces.IUploadFilePhoto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

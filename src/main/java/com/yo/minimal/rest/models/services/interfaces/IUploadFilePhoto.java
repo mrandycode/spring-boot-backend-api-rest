@@ -1,4 +1,4 @@
-package com.yo.minimal.rest.models.services;
+package com.yo.minimal.rest.models.services.interfaces;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;

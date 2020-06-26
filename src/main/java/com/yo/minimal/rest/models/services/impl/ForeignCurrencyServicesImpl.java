@@ -1,7 +1,8 @@
-package com.yo.minimal.rest.models.services;
+package com.yo.minimal.rest.models.services.impl;
 
 import com.yo.minimal.rest.models.entity.ForeignCurrency;
 import com.yo.minimal.rest.models.iDao.IForeignCurrencyDao;
+import com.yo.minimal.rest.models.services.interfaces.IForeignCurrencyServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

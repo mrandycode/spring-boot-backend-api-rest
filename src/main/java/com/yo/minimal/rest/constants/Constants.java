@@ -18,4 +18,9 @@ public final class Constants {
     public final static String UPLOADS_FOLDER_ITEM = System.getProperty("pathPhotoItem");
     public final static String PHOTO_ITEM_NOT_DISP = System.getProperty("fotonodispItem");
     public final static String PHOTO_CUSTO_NOT_DISP = System.getProperty("fotonodisp");
+
+
+    // Constantes para manejo de facturas.
+    public final static String TYPE_INVOICE_INVOICE = "I";
+    public final static String TYPE_INVOICE_REFUND = "R";
 }

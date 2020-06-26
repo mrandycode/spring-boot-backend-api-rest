@@ -1,10 +1,8 @@
-package com.yo.minimal.rest.models.services;
+package com.yo.minimal.rest.models.services.interfaces;
 
 import com.yo.minimal.rest.constants.enums.RoleName;
 import com.yo.minimal.rest.models.entity.RoleUser;
-import com.yo.minimal.rest.models.entity.User;
 
-import java.util.List;
 import java.util.Optional;
 
 

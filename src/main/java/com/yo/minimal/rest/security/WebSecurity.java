@@ -1,6 +1,6 @@
 package com.yo.minimal.rest.security;
 
-import com.yo.minimal.rest.models.services.UserDetailsServiceImpl;
+import com.yo.minimal.rest.models.services.impl.UserDetailsServiceImpl;
 import com.yo.minimal.rest.security.JWT.JwtEntryPoint;
 import com.yo.minimal.rest.security.JWT.JwtTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -28,6 +28,13 @@ public class InvoiceDetail implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Item item;
 
+    @Column(name="defective_refund", columnDefinition = "int default 0")
+    private Integer defectiveRefund;
+
+
+    @Column(name="other_refund", columnDefinition = "int default 0")
+    private Integer otherRefund;
+
     public Long getId() {
         return id;
     }
@@ -58,6 +65,22 @@ public class InvoiceDetail implements Serializable {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public int getDefectiveRefund() {
+        return defectiveRefund;
+    }
+
+    public void setDefectiveRefund(int defectiveRefund) {
+        this.defectiveRefund = defectiveRefund;
+    }
+
+    public int getOtherRefund() {
+        return otherRefund;
+    }
+
+    public void setOtherRefund(int otherRefund) {
+        this.otherRefund = otherRefund;
     }
 
     private static final long serialVersionUID = 1L;

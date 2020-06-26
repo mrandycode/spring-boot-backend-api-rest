@@ -1,6 +1,6 @@
 package com.yo.minimal.rest.security.JWT;
 
-import com.yo.minimal.rest.models.services.UserDetailsServiceImpl;
+import com.yo.minimal.rest.models.services.impl.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

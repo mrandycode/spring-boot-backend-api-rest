@@ -18,6 +18,8 @@ public class Invoice implements Serializable {
 
     private String observation;
 
+    private String description;
+
     @Basic
     @Column(name = "create_date")
     private Timestamp createDate;
@@ -32,11 +34,13 @@ public class Invoice implements Serializable {
         createDate = new Timestamp(System.currentTimeMillis());
     }
 
+    @Column(columnDefinition = "char(1) default 'I'")
+    private String type;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "invoice_id")
     private List<InvoiceDetail> invoiceDetail;
 
-    @NotNull
     @Column(name = "total_invoice", columnDefinition = "double default 0.0")
     private Double totalInvoice;
 
@@ -77,8 +81,6 @@ public class Invoice implements Serializable {
     @Size(max = 50)
     private String bankCheckissuing;
 
-    public static final String NamedQuery_discountInventoryFromInvoicedetail = "discountInventoryFromInvoicedetail";
-
     // Constructor sin argumentos
     public Invoice() {
         super();
@@ -100,6 +102,14 @@ public class Invoice implements Serializable {
         this.observation = observation;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Timestamp getCreateDate() {
         return createDate;
     }
@@ -114,6 +124,14 @@ public class Invoice implements Serializable {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public List<InvoiceDetail> getInvoiceDetail() {

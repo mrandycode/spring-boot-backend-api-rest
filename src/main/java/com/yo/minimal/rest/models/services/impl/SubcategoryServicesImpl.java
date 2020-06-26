@@ -1,7 +1,8 @@
-package com.yo.minimal.rest.models.services;
+package com.yo.minimal.rest.models.services.impl;
 
 import com.yo.minimal.rest.models.entity.SubCategory;
 import com.yo.minimal.rest.models.iDao.ISubcategoryDao;
+import com.yo.minimal.rest.models.services.interfaces.ISubcategoryServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

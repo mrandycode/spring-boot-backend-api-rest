@@ -16,4 +16,7 @@ public interface IItemDao extends CrudRepository<Item, Long> {
 
     @Procedure("SP_ITEM_DISCOUNT_INVENTORY_FROM_INVOICEDETAIL")
     String discountInventoryFromInvoicedetail(String model);
+
+    @Procedure("SP_ITEM_ADD_INVENTORY_FROM_INVOICEDETAIL")
+    String addtInventoryFromInvoicedetail(String model);
 }

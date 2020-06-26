@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yo.minimal.rest.constants.Constants;
 import com.yo.minimal.rest.models.entity.Invoice;
 import com.yo.minimal.rest.models.entity.Item;
-import com.yo.minimal.rest.models.services.IItemServices;
-import com.yo.minimal.rest.models.services.IUploadFilePhoto;
+import com.yo.minimal.rest.models.services.interfaces.IItemServices;
+import com.yo.minimal.rest.models.services.interfaces.IUploadFilePhoto;
 import com.yo.minimal.rest.utility.ImageUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -49,7 +49,6 @@ public class ItemRestController {
      ****************************************/
     @GetMapping("get/item-all")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> findItemAll() {
 
         List<Item> itemList;

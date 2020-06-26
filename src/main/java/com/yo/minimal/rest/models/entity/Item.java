@@ -15,6 +15,8 @@ public class Item implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String barcode;
+
     @NotNull
     @NotEmpty
     private String name;
@@ -76,6 +78,14 @@ public class Item implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
     public String getName() {

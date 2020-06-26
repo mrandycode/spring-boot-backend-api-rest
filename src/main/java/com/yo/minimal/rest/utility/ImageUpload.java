@@ -1,6 +1,6 @@
 package com.yo.minimal.rest.utility;
 
-import com.yo.minimal.rest.models.services.IUploadFilePhoto;
+import com.yo.minimal.rest.models.services.interfaces.IUploadFilePhoto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;

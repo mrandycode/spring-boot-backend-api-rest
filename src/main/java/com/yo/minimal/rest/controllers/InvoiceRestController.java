@@ -1,10 +1,11 @@
 package com.yo.minimal.rest.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yo.minimal.rest.constants.Constants;
 import com.yo.minimal.rest.models.entity.Invoice;
 import com.yo.minimal.rest.models.entity.ResponseJ;
-import com.yo.minimal.rest.models.services.IInvoiceServices;
-import com.yo.minimal.rest.models.services.IItemServices;
+import com.yo.minimal.rest.models.services.interfaces.IInvoiceServices;
+import com.yo.minimal.rest.models.services.interfaces.IItemServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -35,15 +36,15 @@ public class InvoiceRestController {
      * @param
      * @return Listado de Facturas
      ****************************************/
-    @GetMapping("get/invoice-all")
+    @GetMapping("get/invoice-all/{type}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> findInvoiceAll() {
+    public ResponseEntity<?> findInvoiceAll(@PathVariable String type) {
 
         List<Invoice> invoiceList;
         Map<String, Object> response = new HashMap<>();
 
         try {
-            invoiceList = iInvoiceServices.findAllInvoice();
+            invoiceList = iInvoiceServices.findInvoiceByType(type);
         } catch (DataAccessException | TransactionSystemException ex) {
             response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
             response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -111,6 +112,8 @@ public class InvoiceRestController {
 
         Invoice invoice = new ObjectMapper().readValue(invoiceInput, Invoice.class);
         Invoice invoiceNew;
+        ResponseJ responseJ;
+        Long idOriginal;
 
         if (bindingResult.hasErrors()) {
             List<String> errorList = bindingResult.getFieldErrors()
@@ -125,28 +128,27 @@ public class InvoiceRestController {
 
         try {
 
-            // TODO: QUITAR CABLES
-            invoice.setUser("acevallos");
+            // Si es devolución se trae el id de la FACTURA ORIGINAL, si es factura nueva se setea id a 0
+            idOriginal = invoice.getType().equals(Constants.TYPE_INVOICE_REFUND) ? invoice.getId() : 0;
+            //TODO:Quitar este Set
             invoice.setSubTotalInvoice(invoice.getTotalInvoice());
+            invoice.setId(0L);
             invoiceNew = iInvoiceServices.saveInvoice(invoice);
+            invoiceNew.setDescription(Long.toString(idOriginal));
 
-            // Al crear la factura automáticamente llamamos a descontar el inventario
-            if (invoiceNew.getId() > 0) {
-                String invoiceNewStr = new ObjectMapper().writeValueAsString(invoiceNew);
-                String res = iItemServices.discountInventoryFromInvoicedetail(invoiceNewStr);
-                ResponseJ responseJ = new ObjectMapper().readValue(res, ResponseJ.class);
+            // Al crear la factura automáticamente llamamos a descontar o sumar el inventario según sea el caso
+            responseJ = iInvoiceServices.isInvoiceOrRefund(invoiceNew, idOriginal);
 
-                if (responseJ.getCod().equals(Integer.toString(HttpStatus.CREATED.value()))) {
-                    response.put("message", responseJ.getMessage());
-                    response.put("cod", HttpStatus.CREATED.value());
-                    response.put("invoice", invoiceNew);
-                } else {
-                    response.put("message", responseJ.getMessage());
-                    response.put("cod", responseJ.getCod());
-                }
+            if (responseJ.getCod().equals(Integer.toString(HttpStatus.CREATED.value()))) {
+                response.put("message", responseJ.getMessage());
+                response.put("cod", HttpStatus.CREATED.value());
+                response.put("invoice", invoiceNew);
+            } else {
+                response.put("message", responseJ.getMessage());
+                response.put("cod", responseJ.getCod());
             }
 
-        } catch (DataAccessException | TransactionSystemException ex) {
+        } catch (DataAccessException | TransactionSystemException  ex) {
             response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
             response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.put("error", "Causa : " + ex.getMostSpecificCause());

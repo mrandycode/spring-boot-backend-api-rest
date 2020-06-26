@@ -1,4 +1,4 @@
-package com.yo.minimal.rest.models.services;
+package com.yo.minimal.rest.models.services.interfaces;
 
 import com.yo.minimal.rest.models.entity.Item;
 
@@ -17,6 +17,5 @@ public interface IItemServices {
 
     public String discountInventoryFromInvoicedetail(String invoice);
 
-
-
+    public String addInventoryFromInvoicedetail(String invoice);
 }

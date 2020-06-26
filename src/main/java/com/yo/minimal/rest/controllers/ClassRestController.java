@@ -3,7 +3,7 @@ package com.yo.minimal.rest.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yo.minimal.rest.models.entity.CClass;
 import com.yo.minimal.rest.models.entity.Item;
-import com.yo.minimal.rest.models.services.IClassServices;
+import com.yo.minimal.rest.models.services.interfaces.IClassServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
