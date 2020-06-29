@@ -34,7 +34,7 @@ public class Invoice implements Serializable {
         createDate = new Timestamp(System.currentTimeMillis());
     }
 
-    @Column(columnDefinition = "char(1) default 'I'")
+    @Column(columnDefinition = "varchar(2) default 'I'")
     private String type;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -80,6 +80,9 @@ public class Invoice implements Serializable {
     @Column(name = "bank_check_issuing ")
     @Size(max = 50)
     private String bankCheckissuing;
+
+    @Column(name = "customer_credit_amount")
+    private Double customerCreditAmount;
 
     // Constructor sin argumentos
     public Invoice() {
@@ -236,5 +239,13 @@ public class Invoice implements Serializable {
 
     public void setBankCheckissuing(String bankCheckissuing) {
         this.bankCheckissuing = bankCheckissuing;
+    }
+
+    public Double getCustomerCreditAmount() {
+        return customerCreditAmount;
+    }
+
+    public void setCustomerCreditAmount(Double customerCreditAmount) {
+        this.customerCreditAmount = customerCreditAmount;
     }
 }

@@ -2,6 +2,7 @@ package com.yo.minimal.rest.models.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yo.minimal.rest.constants.Constants;
+import com.yo.minimal.rest.models.entity.Customer;
 import com.yo.minimal.rest.models.entity.Invoice;
 import com.yo.minimal.rest.models.entity.ResponseJ;
 import com.yo.minimal.rest.models.iDao.IInvoiceDao;
@@ -65,6 +66,10 @@ public class InvoiceServicesImpl implements IInvoiceServices {
             if (invoiceNew.getId() > 0) {
 
                 if (invoiceNew.getType().equals(Constants.TYPE_INVOICE_INVOICE)) {
+                    if (invoiceNew.getCustomerCreditAmount() > 0) {
+                        invoiceNew.setDescription(Constants.TYPE_INVOICE_REFUND_PROCESSED +
+                                String.valueOf(idOriginal));
+                    }
                     res = iItemServices.discountInventoryFromInvoicedetail(invoiceNewStr);
                     responseJ = new ObjectMapper().readValue(res, ResponseJ.class);
                 } else {
@@ -82,8 +87,6 @@ public class InvoiceServicesImpl implements IInvoiceServices {
 
                         if (responseJ.getCod().equals(Integer.toString(HttpStatus.CREATED.value()))) {
                             // Agrgamos marca de devolución en el campo Description de la factura.
-//                            invoiceNew.setId(idOriginal);
-//                            invoiceNewStr = new ObjectMapper().writeValueAsString(invoiceNew);
                             res = this.markRefundIntoInvoice(invoiceNewStr);
                             responseJ = new ObjectMapper().readValue(res, ResponseJ.class);
                         }
@@ -100,4 +103,28 @@ public class InvoiceServicesImpl implements IInvoiceServices {
         return responseJ;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Invoice findInvoiceByIdAndCustomer(Long id, Customer customer) {
+        return iInvoiceDao.findInvoiceByIdAndCustomer(id, customer);
+    }
+
+    @Override
+    @Transactional
+    public void updateInvoiceAsRefundProcessed(Invoice invoice) {
+        if (invoice.getCustomerCreditAmount() > 0) {
+            iInvoiceDao.updateInvoiceAsRefundProcessed(Long.parseLong(invoice.getDescription()));
+        }
+    }
+
+    @Override
+    public Long getIdOriginal(Invoice invoice) {
+        if (invoice.getType().equals(Constants.TYPE_INVOICE_REFUND)) {
+            return invoice.getId();
+        } else if (invoice.getType().equals(Constants.TYPE_INVOICE_INVOICE) && invoice.getCustomerCreditAmount() > 0) {
+            return Long.parseLong(invoice.getDescription());
+        } else {
+            return 0L;
+        }
+    }
 }

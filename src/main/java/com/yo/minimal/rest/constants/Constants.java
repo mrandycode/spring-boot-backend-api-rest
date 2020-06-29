@@ -23,4 +23,5 @@ public final class Constants {
     // Constantes para manejo de facturas.
     public final static String TYPE_INVOICE_INVOICE = "I";
     public final static String TYPE_INVOICE_REFUND = "R";
+    public final static String TYPE_INVOICE_REFUND_PROCESSED = "RP";
 }

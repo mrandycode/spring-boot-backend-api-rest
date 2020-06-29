@@ -1,5 +1,6 @@
 package com.yo.minimal.rest.models.services.interfaces;
 
+import com.yo.minimal.rest.models.entity.Customer;
 import com.yo.minimal.rest.models.entity.Invoice;
 import com.yo.minimal.rest.models.entity.ResponseJ;
 
@@ -21,4 +22,9 @@ public interface IInvoiceServices {
 
     public String markRefundIntoInvoice(String invoiceNew);
 
+    public Invoice findInvoiceByIdAndCustomer(Long Id, Customer customer);
+
+    public void updateInvoiceAsRefundProcessed (Invoice invoice);
+
+    public Long getIdOriginal (Invoice invoice);
 }
