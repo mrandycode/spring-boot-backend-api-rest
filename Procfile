@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/heroku-demo-0.0.1-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -war target/spring-boot-backend-api-rest-1.0.war
