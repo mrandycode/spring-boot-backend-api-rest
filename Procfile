@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/heroku-demo-0.0.1-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -jar target/heroku-demo-0.0.1-SNAPSHOT.jar -DpathPhotoCustomer="/src/main/resources/PhotoCustomer" -DpathPhotoItem="/src/main/resources/PhotoItem" -DfotonodispItem="/src/main/resources/PhotoItem/fotonodisp.png" -Dfotonodisp="/src/main/resources/PhotoCustomer/fotonodisp.png"
