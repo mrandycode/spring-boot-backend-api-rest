@@ -57,9 +57,9 @@
 
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <!--<dependency>-->
-            <!--<groupId>org.apache.commons</groupId>-->
-            <!--<artifactId>commons-lang3</artifactId>-->
-            <!--<version>3.0</version>-->
+        <!--<groupId>org.apache.commons</groupId>-->
+        <!--<artifactId>commons-lang3</artifactId>-->
+        <!--<version>3.0</version>-->
         <!--</dependency>-->
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
@@ -90,7 +90,7 @@
                 <!--Reemplaza el Procfile que pide Heroku -->
                 <configuration>
                     <processTypes>
-                        <web>java $JAVA_OPTS -cp target/classes:target/dependency/* Main</web>
+                        <web>java $JAVA_OPTS -cp com.yo.minimal.rest.SpringBootBackendApiRestApplication</web>
                     </processTypes>
                 </configuration>
             </plugin>
