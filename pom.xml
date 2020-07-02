@@ -90,7 +90,7 @@
                 <!--Reemplaza el Procfile que pide Heroku -->
                 <configuration>
                     <processTypes>
-                        <web>java $JAVA_OPTS -cp com.yo.minimal.rest.SpringBootBackendApiRestApplication</web>
+                        <web>java $JAVA_OPTS -cp target/classes:target/dependency/* Main</web>
                     </processTypes>
                 </configuration>
             </plugin>

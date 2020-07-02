@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT
+web: java -jar target/spring-boot-backend-api-rest-1.0.war
