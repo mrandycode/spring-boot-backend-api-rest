@@ -16,9 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -32,7 +29,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     JwtEntryPoint jwtEntryPoint;
 
     @Bean
-    public JwtTokenFilter jwtTokenFilter(){
+    public JwtTokenFilter jwtTokenFilter() {
         return new JwtTokenFilter();
     }
 
@@ -48,7 +45,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -70,20 +67,4 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-
-     @Bean
-     public CorsFilter corsFilter() {
-         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-         CorsConfiguration config = new CorsConfiguration();
-         config.setAllowCredentials(true);
-         config.addAllowedOrigin("*");
-         config.addAllowedHeader("*");
-         config.addAllowedMethod("OPTIONS");
-         config.addAllowedMethod("GET");
-         config.addAllowedMethod("POST");
-         config.addAllowedMethod("PUT");
-         config.addAllowedMethod("DELETE");
-         source.registerCorsConfiguration("/**", config);
-         return new CorsFilter(source);
-     }
 }
