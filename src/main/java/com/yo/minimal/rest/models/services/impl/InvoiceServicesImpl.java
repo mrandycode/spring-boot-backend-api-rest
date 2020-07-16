@@ -15,13 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class InvoiceServicesImpl implements IInvoiceServices {
@@ -37,47 +32,36 @@ public class InvoiceServicesImpl implements IInvoiceServices {
     public Invoice findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(Long id) {
         Invoice invoice = iInvoiceDao.findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(id);
         Invoice invoiceRefund = new Invoice();
-        Long refundId = 0L;
+        Long refundId;
         String strId = "";
 
-        if (invoice.getDescription().contains("R")) {
-            int count = 0;
-            for (int i = 0; i < invoice.getDescription().length(); i++) {
-                if (invoice.getDescription().substring(i, i + 1).equals("R")) {
-                    count++;
-                    if (count >= 2) {
-                        refundId = Long.valueOf(strId);
-                        invoiceRefund = iInvoiceDao.findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(refundId);
-                        break;
+        if (invoice.getDescription() != null && !invoice.getDescription().equals("0")
+                && invoice.getType().equals("I")) {
+            if (invoice.getDescription().contains("R")) {
+                int count = 0;
+                for (int i = 0; i < invoice.getDescription().length(); i++) {
+                    if (invoice.getDescription().substring(i, i + 1).equals("R")) {
+                        count++;
+                        if (count >= 2) {
+                            refundId = Long.valueOf(strId);
+                            invoiceRefund = iInvoiceDao.findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(refundId);
+                            break;
+                        }
+                    } else {
+                        strId = strId.concat(invoice.getDescription().substring(i, i + 1));
                     }
-                } else {
-                    strId = strId.concat(invoice.getDescription().substring(i, i + 1));
                 }
             }
-            // TODO:Terminar esto POR DIOS.
-//
-//            List<InvoiceDetail> invoiceDetailStream = invoiceRefund.getInvoiceDetail();
-//
-//
-//            Invoice finalInvoiceRefund = invoiceRefund;
-//            invoice.setInvoiceDetail(invoice.getInvoiceDetail().stream()
-//                    .map(i -> {
-//                        if (i.getItem().getId().equals(finalInvoiceRefund.getInvoiceDetail().stream().map(ir -> ir.getItem().getId()))) {
-//                            System.out.println("HOla");
-//                        }
-//                        return "a"
-//                    })
-//                    .collect(Collectors.toList()));
 
-//            invoice = invoice.getInvoiceDetail().stream()
-//                    .map(i -> i.setQtyPurchase(i.getQtyPurchase() - invoiceRefund.getInvoiceDetail().stream()
-//                            .map(ir -> {
-//                                int discount = 0;
-//                                if (ir.getItem() == i.getItem()) {
-//                                    discount = ir.getQtyPurchase();
-//                                }
-//                                return discount;
-//                            })));
+            List<InvoiceDetail> invoiceDetailRefund = invoiceRefund.getInvoiceDetail();
+            invoice.getInvoiceDetail()
+                    .forEach(i -> invoiceDetailRefund.forEach(
+                            r -> {
+                                if (i.getItem().getId().equals(r.getItem().getId())) {
+                                    i.setQtyPurchase(i.getQtyPurchase() - r.getQuantity());
+                                }
+                            })
+                    );
         }
 
         return invoice;
