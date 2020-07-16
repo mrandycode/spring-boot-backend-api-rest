@@ -1,8 +1,10 @@
-package com.yo.minimal.rest.models.entity;
+package com.yo.minimal.rest.dto;
+
+import com.yo.minimal.rest.models.entity.Customer;
 
 import java.util.List;
 
-public class ResponseCustomer extends ResponseJ{
+public class ResponseCustomer extends ResponseJ {
 
     private Customer customer;
     private List<Customer> customerList;

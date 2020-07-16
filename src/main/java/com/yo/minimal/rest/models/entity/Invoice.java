@@ -24,7 +24,7 @@ public class Invoice implements Serializable {
     @Column(name = "create_date")
     private Timestamp createDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Customer customer;
@@ -39,6 +39,7 @@ public class Invoice implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "invoice_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<InvoiceDetail> invoiceDetail;
 
     @Column(name = "total_invoice", columnDefinition = "double default 0.0")

@@ -2,13 +2,15 @@ package com.yo.minimal.rest.models.services.interfaces;
 
 import com.yo.minimal.rest.models.entity.Customer;
 import com.yo.minimal.rest.models.entity.Invoice;
-import com.yo.minimal.rest.models.entity.ResponseJ;
+import com.yo.minimal.rest.dto.ResponseJ;
 
 import java.io.IOException;
 import java.util.List;
 
 
 public interface IInvoiceServices {
+
+    public Invoice findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(Long id);
 
     public List<Invoice> findAllInvoice();
 

@@ -1,4 +1,4 @@
-package com.yo.minimal.rest.DTO;
+package com.yo.minimal.rest.dto;
 
 import org.springframework.security.core.GrantedAuthority;
 

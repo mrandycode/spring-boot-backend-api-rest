@@ -1,4 +1,4 @@
-package com.yo.minimal.rest.DTO;
+package com.yo.minimal.rest.dto;
 
 import javax.validation.constraints.NotBlank;
 

@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yo.minimal.rest.constants.Constants;
 import com.yo.minimal.rest.models.entity.Customer;
 import com.yo.minimal.rest.models.entity.Invoice;
-import com.yo.minimal.rest.models.entity.ResponseJ;
+import com.yo.minimal.rest.dto.ResponseJ;
 import com.yo.minimal.rest.models.services.interfaces.IInvoiceServices;
 import com.yo.minimal.rest.models.services.interfaces.IItemServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,7 +78,7 @@ public class InvoiceRestController {
         Map<String, Object> response = new HashMap<>();
 
         try {
-            invoice = iInvoiceServices.findByIdInvoice(id);
+            invoice = iInvoiceServices.findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(id);
         } catch (DataAccessException | TransactionSystemException ex) {
             response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
             response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -156,7 +155,7 @@ public class InvoiceRestController {
                 response.put("cod", responseJ.getCod());
             }
 
-        } catch (DataAccessException | TransactionSystemException  ex) {
+        } catch (DataAccessException | TransactionSystemException ex) {
             response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
             response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.put("error", "Causa : " + ex.getMostSpecificCause());
@@ -204,10 +203,10 @@ public class InvoiceRestController {
                 response.put("invoice", invoiceReturn);
             } else {
                 response.put("message", "Factura no encontrada");
-                response.put("cod",HttpStatus.NOT_FOUND.value());
+                response.put("cod", HttpStatus.NOT_FOUND.value());
             }
 
-        } catch (DataAccessException | TransactionSystemException  ex) {
+        } catch (DataAccessException | TransactionSystemException ex) {
             response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
             response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.put("error", "Causa : " + ex.getMostSpecificCause());

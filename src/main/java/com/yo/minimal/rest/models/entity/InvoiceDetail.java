@@ -31,7 +31,6 @@ public class InvoiceDetail implements Serializable {
     @Column(name="defective_refund", columnDefinition = "int default 0")
     private Integer defectiveRefund;
 
-
     @Column(name="other_refund", columnDefinition = "int default 0")
     private Integer otherRefund;
 
@@ -82,6 +81,22 @@ public class InvoiceDetail implements Serializable {
     public void setOtherRefund(int otherRefund) {
         this.otherRefund = otherRefund;
     }
+
+    public void setDefectiveRefund(Integer defectiveRefund) {
+        this.defectiveRefund = defectiveRefund;
+    }
+
+    public void setOtherRefund(Integer otherRefund) {
+        this.otherRefund = otherRefund;
+    }
+
+//    public Invoice getInvoice() {
+//        return invoice;
+//    }
+//
+//    public void setInvoice(Invoice invoice) {
+//        this.invoice = invoice;
+//    }
 
     private static final long serialVersionUID = 1L;
 }

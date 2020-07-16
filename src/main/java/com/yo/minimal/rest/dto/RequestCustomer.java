@@ -1,4 +1,6 @@
-package com.yo.minimal.rest.models.entity;
+package com.yo.minimal.rest.dto;
+
+import com.yo.minimal.rest.models.entity.Customer;
 
 public class RequestCustomer extends RequestJ {
 

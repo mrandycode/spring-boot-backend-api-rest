@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yo.minimal.rest.constants.Constants;
 import com.yo.minimal.rest.models.entity.Customer;
 import com.yo.minimal.rest.models.entity.Invoice;
-import com.yo.minimal.rest.models.entity.ResponseJ;
+import com.yo.minimal.rest.dto.ResponseJ;
+import com.yo.minimal.rest.models.entity.InvoiceDetail;
 import com.yo.minimal.rest.models.iDao.IInvoiceDao;
 import com.yo.minimal.rest.models.services.interfaces.IInvoiceServices;
 import com.yo.minimal.rest.models.services.interfaces.IItemServices;
@@ -14,8 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class InvoiceServicesImpl implements IInvoiceServices {
@@ -25,6 +31,57 @@ public class InvoiceServicesImpl implements IInvoiceServices {
 
     @Autowired
     private IItemServices iItemServices;
+
+    @Override
+    @Transactional(readOnly = true)
+    public Invoice findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(Long id) {
+        Invoice invoice = iInvoiceDao.findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(id);
+        Invoice invoiceRefund = new Invoice();
+        Long refundId = 0L;
+        String strId = "";
+
+        if (invoice.getDescription().contains("R")) {
+            int count = 0;
+            for (int i = 0; i < invoice.getDescription().length(); i++) {
+                if (invoice.getDescription().substring(i, i + 1).equals("R")) {
+                    count++;
+                    if (count >= 2) {
+                        refundId = Long.valueOf(strId);
+                        invoiceRefund = iInvoiceDao.findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(refundId);
+                        break;
+                    }
+                } else {
+                    strId = strId.concat(invoice.getDescription().substring(i, i + 1));
+                }
+            }
+            // TODO:Terminar esto POR DIOS.
+//
+//            List<InvoiceDetail> invoiceDetailStream = invoiceRefund.getInvoiceDetail();
+//
+//
+//            Invoice finalInvoiceRefund = invoiceRefund;
+//            invoice.setInvoiceDetail(invoice.getInvoiceDetail().stream()
+//                    .map(i -> {
+//                        if (i.getItem().getId().equals(finalInvoiceRefund.getInvoiceDetail().stream().map(ir -> ir.getItem().getId()))) {
+//                            System.out.println("HOla");
+//                        }
+//                        return "a"
+//                    })
+//                    .collect(Collectors.toList()));
+
+//            invoice = invoice.getInvoiceDetail().stream()
+//                    .map(i -> i.setQtyPurchase(i.getQtyPurchase() - invoiceRefund.getInvoiceDetail().stream()
+//                            .map(ir -> {
+//                                int discount = 0;
+//                                if (ir.getItem() == i.getItem()) {
+//                                    discount = ir.getQtyPurchase();
+//                                }
+//                                return discount;
+//                            })));
+        }
+
+        return invoice;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -73,14 +130,18 @@ public class InvoiceServicesImpl implements IInvoiceServices {
                     res = iItemServices.discountInventoryFromInvoicedetail(invoiceNewStr);
                     responseJ = new ObjectMapper().readValue(res, ResponseJ.class);
                 } else {
-                    AtomicInteger counter = new AtomicInteger(0);
+                    AtomicInteger counterOther = new AtomicInteger(0);
+                    AtomicInteger counterDefective = new AtomicInteger(0);
                     invoiceNew.getInvoiceDetail().forEach(l -> {
                         if (l.getOtherRefund() > 0) {
-                            counter.addAndGet(1);
+                            counterOther.addAndGet(1);
+                        }
+                        if (l.getDefectiveRefund() > 0) {
+                            counterDefective.addAndGet(1);
                         }
                     });
 
-                    if (counter.get() > 0 && invoiceNew.getType().equals(Constants.TYPE_INVOICE_REFUND)) {
+                    if (counterOther.get() > 0 && invoiceNew.getType().equals(Constants.TYPE_INVOICE_REFUND)) {
                         // Agregar inventario si la devolución no es defectuosa.
                         res = iItemServices.addInventoryFromInvoicedetail(invoiceNewStr);
                         responseJ = new ObjectMapper().readValue(res, ResponseJ.class);
@@ -90,6 +151,9 @@ public class InvoiceServicesImpl implements IInvoiceServices {
                             res = this.markRefundIntoInvoice(invoiceNewStr);
                             responseJ = new ObjectMapper().readValue(res, ResponseJ.class);
                         }
+                    } else if (counterDefective.get() > 0 && invoiceNew.getType().equals(Constants.TYPE_INVOICE_REFUND)) {
+                        responseJ.setCod(String.valueOf(HttpStatus.CREATED.value()));
+                        responseJ.setMessage(Constants.MSG_OK_EXECTUTE);
                     }
                 }
             }
