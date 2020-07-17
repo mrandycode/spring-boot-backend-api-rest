@@ -10,6 +10,9 @@ import com.yo.minimal.rest.utility.ImageUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,10 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
@@ -44,7 +44,6 @@ public class ItemRestController {
     private IUploadFilePhoto iUploadFilePhoto;
 
     /***************************************
-     * @param
      * @return Listado de productos
      ****************************************/
     @GetMapping("get/item-all")
@@ -77,7 +76,51 @@ public class ItemRestController {
     }
 
     /***************************************
-     * @param
+     * @param page Número de página
+     * @param size Tamaño de la lista a mostrar
+     * @return Obtenemos listado de productos a través de paginación
+     ****************************************/
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("get/item-pagination")
+    public ResponseEntity<?> getItemsByPagination(@RequestParam(name = "page") int page,
+                                                  @RequestParam(name = "size") int size) throws IOException {
+
+        Map<String, Object> response = new HashMap<>();
+        Page<Item> itemList;
+        long totalItems;
+        long totalPages;
+
+        try {
+
+            Pageable pageRequest = PageRequest.of(page, size);
+            itemList = iItemServices.findAll(pageRequest);
+            totalItems = itemList.getTotalElements();
+            totalPages = itemList.getTotalPages();
+
+        } catch (DataAccessException | TransactionSystemException ex) {
+            response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
+            response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("error", "Causa : " + ex.getMostSpecificCause());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (itemList.stream().count() < 1) {
+            response.put("message", "No hay productos existentes en la base de datos");
+            response.put("cod", HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+
+        response.put("items", itemList);
+        response.put("totalItems", totalItems);
+        response.put("totalPages", totalPages);
+        response.put("message", "Consulta Exitosa");
+        response.put("cod", HttpStatus.FOUND.value());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /***************************************
+     * @param id Id de Producto
      * @return Item por Id
      ****************************************/
     @GetMapping("get/item-id/{id}")
@@ -110,7 +153,42 @@ public class ItemRestController {
     }
 
     /***************************************
-     * @param
+     * @param inputIds Array de Ids
+     * @return Items por listado de Ids
+     ****************************************/
+    @GetMapping("get/items-ids")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> findItemsByListIds(@Valid String inputIds) throws IOException {
+
+        List<Long> itemsIds = Arrays.asList(new ObjectMapper().readValue(inputIds, Long[].class));
+        List<Item> itemList;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            itemList = iItemServices.findItemsByListIds(itemsIds);
+        } catch (DataAccessException | TransactionSystemException ex) {
+            response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
+            response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("error", "Causa : " + ex.getMostSpecificCause());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (itemList == null || itemList.size() < 1) {
+            response.put("message", "El listado de IDs no existe en la base de datos");
+            response.put("cod", HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+
+        response.put("message", "Consulta Exitosa");
+        response.put("cod", HttpStatus.FOUND.value());
+        response.put("items", itemList);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /***************************************
+     * @param itemPhoto Imagen del producto
+     * @param itemInput Json con Objeto de Producto
      * @return Guardar Producto
      ****************************************/
     @PostMapping("post")
@@ -166,7 +244,8 @@ public class ItemRestController {
     }
 
     /***************************************
-     * @param
+     * @param imagePhoto Imagen del producto
+     * @param itemInput Json con Objeto de Producto
      * @return Actualizar Producto
      ****************************************/
     @PutMapping("put")
@@ -227,7 +306,7 @@ public class ItemRestController {
     }
 
     /***************************************
-     * @param
+     * @param itemInput Json del Producto
      * @return Cambiar status Producto - Delete
      ****************************************/
     @ResponseStatus(HttpStatus.OK)

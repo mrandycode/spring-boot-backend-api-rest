@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yo.minimal.rest.constants.Constants;
 import com.yo.minimal.rest.models.entity.Customer;
 import com.yo.minimal.rest.models.entity.Invoice;
-import com.yo.minimal.rest.models.entity.ResponseJ;
+import com.yo.minimal.rest.dto.ResponseJ;
+import com.yo.minimal.rest.models.entity.InvoiceDetail;
 import com.yo.minimal.rest.models.iDao.IInvoiceDao;
 import com.yo.minimal.rest.models.services.interfaces.IInvoiceServices;
 import com.yo.minimal.rest.models.services.interfaces.IItemServices;
@@ -25,6 +26,46 @@ public class InvoiceServicesImpl implements IInvoiceServices {
 
     @Autowired
     private IItemServices iItemServices;
+
+    @Override
+    @Transactional(readOnly = true)
+    public Invoice findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(Long id) {
+        Invoice invoice = iInvoiceDao.findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(id);
+        Invoice invoiceRefund = new Invoice();
+        Long refundId;
+        String strId = "";
+
+        if (invoice.getDescription() != null && !invoice.getDescription().equals("0")
+                && invoice.getType().equals("I")) {
+            if (invoice.getDescription().contains("R")) {
+                int count = 0;
+                for (int i = 0; i < invoice.getDescription().length(); i++) {
+                    if (invoice.getDescription().substring(i, i + 1).equals("R")) {
+                        count++;
+                        if (count >= 2) {
+                            refundId = Long.valueOf(strId);
+                            invoiceRefund = iInvoiceDao.findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(refundId);
+                            break;
+                        }
+                    } else {
+                        strId = strId.concat(invoice.getDescription().substring(i, i + 1));
+                    }
+                }
+            }
+
+            List<InvoiceDetail> invoiceDetailRefund = invoiceRefund.getInvoiceDetail();
+            invoice.getInvoiceDetail()
+                    .forEach(i -> invoiceDetailRefund.forEach(
+                            r -> {
+                                if (i.getItem().getId().equals(r.getItem().getId())) {
+                                    i.setQtyPurchase(i.getQtyPurchase() - r.getQuantity());
+                                }
+                            })
+                    );
+        }
+
+        return invoice;
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -73,14 +114,18 @@ public class InvoiceServicesImpl implements IInvoiceServices {
                     res = iItemServices.discountInventoryFromInvoicedetail(invoiceNewStr);
                     responseJ = new ObjectMapper().readValue(res, ResponseJ.class);
                 } else {
-                    AtomicInteger counter = new AtomicInteger(0);
+                    AtomicInteger counterOther = new AtomicInteger(0);
+                    AtomicInteger counterDefective = new AtomicInteger(0);
                     invoiceNew.getInvoiceDetail().forEach(l -> {
                         if (l.getOtherRefund() > 0) {
-                            counter.addAndGet(1);
+                            counterOther.addAndGet(1);
+                        }
+                        if (l.getDefectiveRefund() > 0) {
+                            counterDefective.addAndGet(1);
                         }
                     });
 
-                    if (counter.get() > 0 && invoiceNew.getType().equals(Constants.TYPE_INVOICE_REFUND)) {
+                    if (counterOther.get() > 0 && invoiceNew.getType().equals(Constants.TYPE_INVOICE_REFUND)) {
                         // Agregar inventario si la devolución no es defectuosa.
                         res = iItemServices.addInventoryFromInvoicedetail(invoiceNewStr);
                         responseJ = new ObjectMapper().readValue(res, ResponseJ.class);
@@ -90,6 +135,9 @@ public class InvoiceServicesImpl implements IInvoiceServices {
                             res = this.markRefundIntoInvoice(invoiceNewStr);
                             responseJ = new ObjectMapper().readValue(res, ResponseJ.class);
                         }
+                    } else if (counterDefective.get() > 0 && invoiceNew.getType().equals(Constants.TYPE_INVOICE_REFUND)) {
+                        responseJ.setCod(String.valueOf(HttpStatus.CREATED.value()));
+                        responseJ.setMessage(Constants.MSG_OK_EXECTUTE);
                     }
                 }
             }

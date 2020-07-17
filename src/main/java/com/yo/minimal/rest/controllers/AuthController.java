@@ -1,9 +1,9 @@
 
 package com.yo.minimal.rest.controllers;
 
-import com.yo.minimal.rest.DTO.JwtDto;
-import com.yo.minimal.rest.DTO.LoginUserDto;
-import com.yo.minimal.rest.DTO.NewUserDto;
+import com.yo.minimal.rest.dto.JwtDto;
+import com.yo.minimal.rest.dto.LoginUserDto;
+import com.yo.minimal.rest.dto.NewUserDto;
 import com.yo.minimal.rest.constants.enums.RoleName;
 import com.yo.minimal.rest.models.entity.RoleUser;
 import com.yo.minimal.rest.models.entity.User;

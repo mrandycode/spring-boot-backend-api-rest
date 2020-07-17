@@ -16,9 +16,6 @@ public class JwtEntryPoint implements AuthenticationEntryPoint {
     private static  final Logger logger = LoggerFactory.getLogger(JwtEntryPoint.class);
     @Override
     public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException e) throws IOException {
-        System.out.println(req.getHeader("Cache-Control"));
-        System.out.println(res);
-        System.out.println(e);
         logger.error("Falla al ingresar al método");
         res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Credenciales Incorrectas");
     }

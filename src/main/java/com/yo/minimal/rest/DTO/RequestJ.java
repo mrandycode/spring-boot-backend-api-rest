@@ -1,4 +1,4 @@
-package com.yo.minimal.rest.models.entity;
+package com.yo.minimal.rest.dto;
 
 public class RequestJ {
 

@@ -24,4 +24,9 @@ public final class Constants {
     public final static String TYPE_INVOICE_INVOICE = "I";
     public final static String TYPE_INVOICE_REFUND = "R";
     public final static String TYPE_INVOICE_REFUND_PROCESSED = "RP";
+
+    // Código y mensaje de respuestas:
+    public final static String COD_OK_EXECUTE = "201";
+    public final static String MSG_OK_EXECTUTE = "Ejecución Exitosa";
+
 }

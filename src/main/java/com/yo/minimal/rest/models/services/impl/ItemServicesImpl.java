@@ -4,6 +4,8 @@ import com.yo.minimal.rest.models.entity.Item;
 import com.yo.minimal.rest.models.iDao.IItemDao;
 import com.yo.minimal.rest.models.services.interfaces.IItemServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,10 +24,17 @@ public class ItemServicesImpl implements IItemServices {
     }
 
     @Override
+    public Page<Item> findAll(Pageable pageRequest) { return iItemDao.findAll(pageRequest);}
+
+    @Override
     @Transactional(readOnly = true)
     public Item findByIdItem(Long id) {
         return iItemDao.findById(id).orElse(null);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Item> findItemsByListIds (List<Long> ids){ return iItemDao.findItemsByListIds(ids);}
 
     @Override
     @Transactional
