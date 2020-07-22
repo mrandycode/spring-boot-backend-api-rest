@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = {"https://yo-minimal-web.herokuapp.com"})
 @RestController
 @RequestMapping("/api/items/")
 public class ItemRestController {

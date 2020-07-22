@@ -27,7 +27,7 @@ import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://yo-minimal-web.herokuapp.com")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

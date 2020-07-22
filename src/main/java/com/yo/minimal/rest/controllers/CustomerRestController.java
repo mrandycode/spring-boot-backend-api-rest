@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 /**
  * Permite tener integridad entre servidores, en este caso FrontEnd Angular CORS
  **/
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = {"https://yo-minimal-web.herokuapp.com"})
 @RestController
 @RequestMapping("/api/")
 public class CustomerRestController {
