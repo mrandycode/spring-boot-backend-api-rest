@@ -29,4 +29,6 @@ public final class Constants {
     public final static String COD_OK_EXECUTE = "201";
     public final static String MSG_OK_EXECTUTE = "Ejecución Exitosa";
 
+    // Valor de CorsOrigin
+    public final static String URL_ORIGIN = System.getProperty("originUrl");
 }

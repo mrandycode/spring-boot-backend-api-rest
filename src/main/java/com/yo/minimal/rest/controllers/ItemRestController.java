@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api/items/")
 public class ItemRestController {

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api/subcategory/")
 public class SubcategoryRestController {
@@ -29,7 +28,7 @@ public class SubcategoryRestController {
 
     /***************************************
      * @param
-     * @return Listado de categoria de un producto
+     * @return Listado de categoría de un producto
      ****************************************/
     @GetMapping("get/subcategory-all")
     @ResponseStatus(HttpStatus.OK)
