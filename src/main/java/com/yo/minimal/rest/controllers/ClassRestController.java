@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = {"https://yo-minimal-web.herokuapp.com"})
 @RestController
 @RequestMapping("/api/class/")
 public class ClassRestController {

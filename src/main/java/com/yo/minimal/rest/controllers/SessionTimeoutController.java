@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = {"https://yo-minimal-web.herokuapp.com"})
 @RestController
 @RequestMapping("/api/session/timeout/")
 public class SessionTimeoutController {

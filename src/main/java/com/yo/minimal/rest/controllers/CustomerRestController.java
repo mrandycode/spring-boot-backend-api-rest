@@ -28,10 +28,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Permite tener integridad entre servidores, en este caso FrontEnd Angular CORS
- **/
-@CrossOrigin(origins = {"https://yo-minimal-web.herokuapp.com"})
 @RestController
 @RequestMapping("/api/")
 public class CustomerRestController {
