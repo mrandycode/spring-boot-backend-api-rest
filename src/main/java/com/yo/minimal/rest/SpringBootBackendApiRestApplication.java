@@ -30,8 +30,7 @@ public class SpringBootBackendApiRestApplication implements CommandLineRunner {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins(Constants.URL_ORIGIN)
-                        .allowedOrigins(Constants.URL_ORIGIN_LOCAL)
+                        .allowedOrigins(Constants.URL_ORIGIN, Constants.URL_ORIGIN_LOCAL)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH");
             }
         };
