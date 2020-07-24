@@ -67,9 +67,6 @@ public class Item implements Serializable {
     @Column(name="qty_purchase", columnDefinition = "int default 0")
     private int qtyPurchase;
 
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private InvoiceDetail invoiceDetail;
-
     // Constructor sin argumentos.
     public Item() {
         super();
@@ -210,14 +207,6 @@ public class Item implements Serializable {
     public void setQtyPurchase(int qtyPurchase) {
         this.qtyPurchase = qtyPurchase;
     }
-
-//    public InvoiceDetail getInvoiceDetail() {
-//        return invoiceDetail;
-//    }
-//
-//    public void setInvoiceDetail(InvoiceDetail invoiceDetail) {
-//        this.invoiceDetail = invoiceDetail;
-//    }
 
     private static final long serialVersionUID = 1L;
 }
