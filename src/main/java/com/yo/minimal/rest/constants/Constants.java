@@ -31,4 +31,5 @@ public final class Constants {
 
     // Valor de CorsOrigin
     public final static String URL_ORIGIN = System.getProperty("originUrl");
+    public final static String URL_ORIGIN_LOCAL = System.getProperty("originUrlLocal");
 }
