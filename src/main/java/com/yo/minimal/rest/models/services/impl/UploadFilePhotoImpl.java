@@ -28,7 +28,13 @@ public class UploadFilePhotoImpl implements IUploadFilePhoto {
         log.info("pathPhoto: " + pathPhoto);
         Resource resource = new UrlResource(pathPhoto.toUri()); //interfaz de Spring
         if (!resource.exists() || !resource.isReadable()) {
-            throw new RuntimeException("Error: no se puede cargar la imagen: " + pathPhoto.toString());
+            if (nameMethod.equals(Constants.custoType)) {
+                pathPhoto = getPath(Constants.noDispImage, Constants.custoType);
+            }
+            if (nameMethod.equals(Constants.itemType)) {
+                pathPhoto = getPath(Constants.noDispImage, Constants.itemType);
+            }
+            resource = new UrlResource(pathPhoto.toUri());
         }
 
         return resource;
@@ -67,7 +73,6 @@ public class UploadFilePhotoImpl implements IUploadFilePhoto {
         }
         return false;
     }
-
 
     public Path getPath(String fileName, String nameMethod) {
         Path pathPhoto = Paths.get("null");

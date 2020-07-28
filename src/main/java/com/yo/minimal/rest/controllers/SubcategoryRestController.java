@@ -28,7 +28,7 @@ public class SubcategoryRestController {
 
     /***************************************
      * @param
-     * @return Listado de categoria de un producto
+     * @return Listado de categoría de un producto
      ****************************************/
     @GetMapping("get/subcategory-all")
     @ResponseStatus(HttpStatus.OK)
