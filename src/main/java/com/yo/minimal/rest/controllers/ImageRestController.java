@@ -31,7 +31,6 @@ public class ImageRestController {
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-            System.out.println(contentType);
         } catch (IOException ex) {
             System.out.print("Could not determine file type.");
         }
