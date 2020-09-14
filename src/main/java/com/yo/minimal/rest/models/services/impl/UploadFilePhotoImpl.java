@@ -26,7 +26,7 @@ public class UploadFilePhotoImpl implements IUploadFilePhoto {
     public Resource load(String fileName, String nameMethod) throws IOException {
         Path pathPhoto = getPath(fileName, nameMethod).normalize();
         log.info("pathPhoto: " + pathPhoto);
-        Resource resource = new UrlResource(pathPhoto.toUri()); //interfaz de Spring
+        Resource resource = new UrlResource(pathPhoto.toUri());
         if (!resource.exists() || !resource.isReadable()) {
             if (nameMethod.equals(Constants.custoType)) {
                 pathPhoto = getPath(Constants.noDispImage, Constants.custoType);

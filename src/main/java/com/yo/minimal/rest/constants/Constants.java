@@ -5,9 +5,6 @@ public final class Constants {
     public Constants() {
     }
 
-    // Constante de precios
-    public static final String defaultPrice = "0.00";
-
     // Constantes para manejo de función UPLOAD IMAGE
     public static final String custoType = "PHOTO_CUSTOMER";
     public static final String itemType = "PHOTO_ITEM";

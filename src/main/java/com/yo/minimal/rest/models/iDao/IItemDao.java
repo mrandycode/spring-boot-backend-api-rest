@@ -14,15 +14,21 @@ public interface IItemDao extends PagingAndSortingRepository<Item, Long> {
 
     @Transactional
     @Modifying
-    @Query("update Item itm set itm.status = 'C' where itm.id = term")
-    void deleteItemById(Long term, String status);
+    @Query("update Item itm set itm.status = ?2 where itm.id = ?1")
+    void updateStatusItemById(Long term, String status);
 
     @Query("select itm from Item itm where itm.id in :ids")
-        List<Item> findItemsByListIds(@Param("ids") List<Long> ids);
+    List<Item> findItemsByListIds(@Param("ids") List<Long> ids);
 
     @Procedure("SP_ITEM_DISCOUNT_INVENTORY_FROM_INVOICEDETAIL")
     String discountInventoryFromInvoicedetail(String model);
 
     @Procedure("SP_ITEM_ADD_INVENTORY_FROM_INVOICEDETAIL")
-    String addtInventoryFromInvoicedetail(String model);
+    String addInventoryFromInvoicedetail(String model);
+
+    @Query("select itm from Item itm where upper(itm.name) " +
+            "like concat('%', upper(:#{#item.name}), '%') " +
+            "or upper(itm.nameMedia) like concat('%', upper(:#{#item.nameMedia}), '%')" +
+            "or upper (itm.description) like concat('%', upper(:#{#item.description}), '%') ")
+    List<Item> findItemsByWords(@Param("item") Item item);
 }

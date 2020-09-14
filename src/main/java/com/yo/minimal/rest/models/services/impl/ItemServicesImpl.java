@@ -24,7 +24,9 @@ public class ItemServicesImpl implements IItemServices {
     }
 
     @Override
-    public Page<Item> findAll(Pageable pageRequest) { return iItemDao.findAll(pageRequest);}
+    public Page<Item> findAll(Pageable pageRequest) {
+        return iItemDao.findAll(pageRequest);
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -34,22 +36,37 @@ public class ItemServicesImpl implements IItemServices {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Item> findItemsByListIds (List<Long> ids){ return iItemDao.findItemsByListIds(ids);}
+    public List<Item> findItemsByListIds(List<Long> ids) {
+        return iItemDao.findItemsByListIds(ids);
+    }
 
     @Override
     @Transactional
-    public Item saveItem(Item item) { return iItemDao.save(item); }
+    public Item saveItem(Item item) {
+        return iItemDao.save(item);
+    }
 
     @Override
     @Transactional
-    public void updateStatusItemById(Long term, String status) {  iItemDao.deleteItemById(term, status);}
+    public void updateStatusItemById(Long term, String status) {
+        iItemDao.updateStatusItemById(term, status);
+    }
 
     @Override
     @Transactional
-    public String discountInventoryFromInvoicedetail(String invoice) { return iItemDao.discountInventoryFromInvoicedetail(invoice); }
+    public String discountInventoryFromInvoicedetail(String invoice) {
+        return iItemDao.discountInventoryFromInvoicedetail(invoice);
+    }
 
     @Override
     @Transactional
-    public String addInventoryFromInvoicedetail(String invoice) { return iItemDao.addtInventoryFromInvoicedetail(invoice); }
+    public String addInventoryFromInvoicedetail(String invoice) {
+        return iItemDao.addInventoryFromInvoicedetail(invoice);
+    }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Item> findItemsByWords(Item item) {
+        return iItemDao.findItemsByWords(item);
+    }
 }

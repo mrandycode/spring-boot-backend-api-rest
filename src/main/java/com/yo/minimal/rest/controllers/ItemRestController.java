@@ -315,7 +315,6 @@ public class ItemRestController {
             , @ModelAttribute Item itemDto
             , BindingResult bindingResult) throws IOException {
 
-
         Map<String, Object> response = new HashMap<>();
         Item item = new ObjectMapper().readValue(itemInput, Item.class);
 
@@ -331,7 +330,6 @@ public class ItemRestController {
         }
 
         try {
-
             iItemServices.updateStatusItemById(item.getId(), item.getStatus());
 
         } catch (DataAccessException | TransactionSystemException ex) {
@@ -415,6 +413,43 @@ public class ItemRestController {
 
         response.put("message", "Se han descontado los invetarios de la factura:  " + invoice.getId() + "-" + "  de manera exitosa");
         response.put("cod", HttpStatus.OK.value());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /***************************************
+     * @param term Palabra a buscar (auto-completar)
+     * @return Retorna lista con resultado de la búsqueda
+     ****************************************/
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("get/by/words/{term}")
+    public ResponseEntity<?> findByNameOrNameMediaOrDescriptionContainingIgnoreCase(@PathVariable String term) {
+
+        Map<String, Object> response = new HashMap<>();
+        List<Item> itemList;
+        Item item = new Item();
+        item.setName(term);
+        item.setNameMedia(term);
+        item.setDescription(term);
+        try {
+            itemList = iItemServices.findItemsByWords(item);
+
+        } catch (DataAccessException | TransactionSystemException ex) {
+            response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
+            response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.put("error", "Causa : " + ex.getMostSpecificCause());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (itemList == null || itemList.size() < 1) {
+            response.put("message", "La búsqueda no arrojo resultado");
+            response.put("cod", HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+
+        response.put("items", itemList);
+        response.put("message", "Consulta Exitosa");
+        response.put("cod", HttpStatus.FOUND.value());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
