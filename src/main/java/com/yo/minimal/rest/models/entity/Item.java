@@ -1,5 +1,7 @@
 package com.yo.minimal.rest.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -66,6 +68,11 @@ public class Item implements Serializable {
 
     @Column(name="qty_purchase", columnDefinition = "int default 0")
     private int qtyPurchase;
+
+    @OneToOne()
+    @JoinColumn(name="attributesItem_id", updatable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private AttributesItem attributesItem;
 
     // Constructor sin argumentos.
     public Item() {
@@ -206,6 +213,14 @@ public class Item implements Serializable {
 
     public void setQtyPurchase(int qtyPurchase) {
         this.qtyPurchase = qtyPurchase;
+    }
+
+    public AttributesItem getAttributesItem() {
+        return attributesItem;
+    }
+
+    public void setAttributesItem(AttributesItem attributesItem) {
+        this.attributesItem = attributesItem;
     }
 
     private static final long serialVersionUID = 1L;
