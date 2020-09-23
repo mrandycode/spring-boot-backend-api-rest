@@ -22,12 +22,9 @@ public class AttributesItem implements Serializable {
     private String material;
     private String otherAtt;
     private String unitMeasurement;
-
-    @OneToOne()
-    private Item item;
-
     private String user;
     private Date createDate;
+
     private Date updateDate;
 
     public AttributesItem() {
@@ -120,14 +117,6 @@ public class AttributesItem implements Serializable {
 
     public void setUnitMeasurement(String unitMeasurement) {
         this.unitMeasurement = unitMeasurement;
-    }
-
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
     }
 
     public String getUser() {

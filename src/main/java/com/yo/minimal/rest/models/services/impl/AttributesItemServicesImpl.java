@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class IAttributesItemServicesImpl implements IAttributesItemsServices {
+public class AttributesItemServicesImpl implements IAttributesItemsServices {
 
     @Autowired
     private IAttributesItemDao iAttributesItemDao;
@@ -19,5 +19,9 @@ public class IAttributesItemServicesImpl implements IAttributesItemsServices {
         return iAttributesItemDao.findById(id).orElse(null);
     }
 
-
+    @Override
+    @Transactional()
+    public AttributesItem saveAttributesItem(AttributesItem attributesItem) {
+        return iAttributesItemDao.save(attributesItem);
+    }
 }

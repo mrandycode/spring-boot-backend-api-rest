@@ -69,8 +69,8 @@ public class Item implements Serializable {
     @Column(name="qty_purchase", columnDefinition = "int default 0")
     private int qtyPurchase;
 
-    @OneToOne()
-    @JoinColumn(name="attributesItem_id", updatable = false)
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="attributesItem_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private AttributesItem attributesItem;
 

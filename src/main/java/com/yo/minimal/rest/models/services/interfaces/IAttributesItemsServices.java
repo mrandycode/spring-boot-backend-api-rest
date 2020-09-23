@@ -7,4 +7,6 @@ public interface IAttributesItemsServices {
 
     public AttributesItem findByIdAttributesItem(Long id);
 
+    public AttributesItem saveAttributesItem(AttributesItem attributesItem);
+
 }
