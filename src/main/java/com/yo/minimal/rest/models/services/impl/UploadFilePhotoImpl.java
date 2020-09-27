@@ -2,8 +2,10 @@ package com.yo.minimal.rest.models.services.impl;
 
 import com.yo.minimal.rest.constants.Constants;
 import com.yo.minimal.rest.models.services.interfaces.IUploadFilePhoto;
+import com.yo.minimal.rest.utility.ImageResize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import java.util.UUID;
 @Service
 public class UploadFilePhotoImpl implements IUploadFilePhoto {
 
+    @Autowired
+    private ImageResize imageResize;
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
@@ -47,15 +51,13 @@ public class UploadFilePhotoImpl implements IUploadFilePhoto {
         String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
 
         //Path relativo
-        Path rootPath = getPath(uniqueFileName, nameMethod); //concatenar nombre de la ruta con la foto.
-        //Path Absoluto
-        //Path rootAbsolutePath = rootPath.toAbsolutePath(); // traemos la ruta absoluta de donde queremos traer el documento.
+        Path rootPath = getPath(uniqueFileName, nameMethod);
 
         log.info("Archivo: ".concat(rootPath.toString()));
-        log.info("Ruta Absolutar: ".concat(rootPath.toString()));
+        log.info("Ruta Absoluta: ".concat(rootPath.toString()));
 
-        //Usando el metodo copy con inputStream.
-        Files.copy(file.getInputStream(), rootPath); //Esa es una segunda forma de traer los datos del archivo. Simplificas codigo.
+        Files.copy(file.getInputStream(), rootPath);
+        imageResize.simpleResizeImage(rootPath.toString());
 
         return uniqueFileName;
     }
@@ -67,14 +69,12 @@ public class UploadFilePhotoImpl implements IUploadFilePhoto {
         File archivo = rootPath.toFile();
         //Validamos que el archivo exista y este disponible
         if (archivo.exists() && archivo.canRead()) {
-            if (archivo.delete()) {
-                return true;
-            }
+            return archivo.delete();
         }
         return false;
     }
 
-    public Path getPath(String fileName, String nameMethod) {
+    private Path getPath(String fileName, String nameMethod) {
         Path pathPhoto = Paths.get("null");
         if (nameMethod.equals(Constants.custoType)) {
             if (this.validateUrlImage(fileName, nameMethod)) {

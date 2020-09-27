@@ -16,7 +16,6 @@ public final class Constants {
     public final static String PHOTO_ITEM_NOT_DISP = System.getProperty("fotonodispItem");
     public final static String PHOTO_CUSTO_NOT_DISP = System.getProperty("fotonodisp");
 
-
     // Constantes para manejo de facturas.
     public final static String TYPE_INVOICE_INVOICE = "I";
     public final static String TYPE_INVOICE_REFUND = "R";
@@ -28,4 +27,10 @@ public final class Constants {
 
     // Valor de CorsOrigin
     public final static String URL_ORIGIN = System.getProperty("originUrl");
+
+    // Valores para imágenes
+    public final static String MESSAGE_IMAGE_RESIZE_SUCCESS = "Se ha re-dimensionado la imagen con éxito ";
+    public final static String MESSAGE_IMAGE_RESIZE_ERROR = "Se ha producido un error al re-dimensionar la imagen: ";
+    public final static  int IMAGE_WIDTH_SMALL = 300;
+    public final static  int IMAGE_HEIGHT_SMALL = 300;
 }
