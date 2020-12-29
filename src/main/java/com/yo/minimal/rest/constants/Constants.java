@@ -27,6 +27,7 @@ public final class Constants {
 
     // Valor de CorsOrigin
     public final static String URL_ORIGIN = System.getProperty("originUrl");
+    public final static String URL_ORIGIN_ECOMMERCE = System.getProperty("originUrlECommerce");
 
     // Valores para imágenes
     public final static String MESSAGE_IMAGE_RESIZE_SUCCESS = "Se ha re-dimensionado la imagen con éxito ";
