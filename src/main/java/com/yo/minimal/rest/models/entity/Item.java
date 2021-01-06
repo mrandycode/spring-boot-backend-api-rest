@@ -74,6 +74,8 @@ public class Item implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private AttributesItem attributesItem;
 
+    private int isTopItem;
+
     // Constructor sin argumentos.
     public Item() {
         super();
@@ -221,6 +223,14 @@ public class Item implements Serializable {
 
     public void setAttributesItem(AttributesItem attributesItem) {
         this.attributesItem = attributesItem;
+    }
+
+    public int getIsTopItem() {
+        return isTopItem;
+    }
+
+    public void setIsTopItem(int isTopItem) {
+        this.isTopItem = isTopItem;
     }
 
     private static final long serialVersionUID = 1L;
