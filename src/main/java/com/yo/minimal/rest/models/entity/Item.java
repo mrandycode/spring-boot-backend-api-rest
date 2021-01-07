@@ -74,7 +74,8 @@ public class Item implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private AttributesItem attributesItem;
 
-    private int isTopItem;
+    @Column(columnDefinition = "char default null")
+    private String isTopItem;
 
     // Constructor sin argumentos.
     public Item() {
@@ -225,11 +226,11 @@ public class Item implements Serializable {
         this.attributesItem = attributesItem;
     }
 
-    public int getIsTopItem() {
+    public String getIsTopItem() {
         return isTopItem;
     }
 
-    public void setIsTopItem(int isTopItem) {
+    public void setIsTopItem(String isTopItem) {
         this.isTopItem = isTopItem;
     }
 
