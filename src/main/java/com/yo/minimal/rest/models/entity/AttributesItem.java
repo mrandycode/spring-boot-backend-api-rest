@@ -5,15 +5,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name="attributesItem")
+@Table(name = "attributes_item")
 public class AttributesItem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name="item_id")
-    private Long itemId;
 
     private String color;
     private String sizeS;
@@ -21,12 +18,18 @@ public class AttributesItem implements Serializable {
     private String sizeL;
     private String sizeXL;
     private String sizeXXL;
-    private String [] size;
+//    private String[] size;
     private String material;
     private String otherAtt;
+    private String unitMeasurement;
     private String user;
     private Date createDate;
+
     private Date updateDate;
+
+    public AttributesItem() {
+        super();
+    }
 
     public Long getId() {
         return id;
@@ -34,14 +37,6 @@ public class AttributesItem implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
     }
 
     public String getColor() {
@@ -92,13 +87,13 @@ public class AttributesItem implements Serializable {
         this.sizeXXL = sizeXXL;
     }
 
-    public String[] getSize() {
-        return size;
-    }
-
-    public void setSize(String[] size) {
-        this.size = size;
-    }
+//    public String[] getSize() {
+//        return size;
+//    }
+//
+//    public void setSize(String[] size) {
+//        this.size = size;
+//    }
 
     public String getMaterial() {
         return material;
@@ -114,6 +109,14 @@ public class AttributesItem implements Serializable {
 
     public void setOtherAtt(String otherAtt) {
         this.otherAtt = otherAtt;
+    }
+
+    public String getUnitMeasurement() {
+        return unitMeasurement;
+    }
+
+    public void setUnitMeasurement(String unitMeasurement) {
+        this.unitMeasurement = unitMeasurement;
     }
 
     public String getUser() {

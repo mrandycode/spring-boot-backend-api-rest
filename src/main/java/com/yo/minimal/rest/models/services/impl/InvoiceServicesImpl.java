@@ -35,33 +35,35 @@ public class InvoiceServicesImpl implements IInvoiceServices {
         Long refundId;
         String strId = "";
 
-        if (invoice.getDescription() != null && !invoice.getDescription().equals("0")
-                && invoice.getType().equals("I")) {
-            if (invoice.getDescription().contains("R")) {
-                int count = 0;
-                for (int i = 0; i < invoice.getDescription().length(); i++) {
-                    if (invoice.getDescription().substring(i, i + 1).equals("R")) {
-                        count++;
-                        if (count >= 2) {
-                            refundId = Long.valueOf(strId);
-                            invoiceRefund = iInvoiceDao.findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(refundId);
-                            break;
+        if (invoice != null) {
+            if (invoice.getDescription() != null && !invoice.getDescription().equals("0")
+                    && invoice.getType().equals("I")) {
+                if (invoice.getDescription().contains("R")) {
+                    int count = 0;
+                    for (int i = 0; i < invoice.getDescription().length(); i++) {
+                        if (invoice.getDescription().substring(i, i + 1).equals("R")) {
+                            count++;
+                            if (count >= 2) {
+                                refundId = Long.valueOf(strId);
+                                invoiceRefund = iInvoiceDao.findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(refundId);
+                                break;
+                            }
+                        } else {
+                            strId = strId.concat(invoice.getDescription().substring(i, i + 1));
                         }
-                    } else {
-                        strId = strId.concat(invoice.getDescription().substring(i, i + 1));
                     }
                 }
-            }
 
-            List<InvoiceDetail> invoiceDetailRefund = invoiceRefund.getInvoiceDetail();
-            invoice.getInvoiceDetail()
-                    .forEach(i -> invoiceDetailRefund.forEach(
-                            r -> {
-                                if (i.getItem().getId().equals(r.getItem().getId())) {
-                                    i.setQtyPurchase(i.getQtyPurchase() - r.getQuantity());
-                                }
-                            })
-                    );
+                List<InvoiceDetail> invoiceDetailRefund = invoiceRefund.getInvoiceDetail();
+                invoice.getInvoiceDetail()
+                        .forEach(i -> invoiceDetailRefund.forEach(
+                                r -> {
+                                    if (i.getItem().getId().equals(r.getItem().getId())) {
+                                        i.setQtyPurchase(i.getQtyPurchase() - r.getQuantity());
+                                    }
+                                })
+                        );
+            }
         }
 
         return invoice;

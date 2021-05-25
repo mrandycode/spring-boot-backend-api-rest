@@ -1,15 +1,12 @@
 package com.yo.minimal.rest.models.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
-@Table (name="class")
+@Table(name = "class")
 public class CClass implements Serializable {
 
     @Id
@@ -18,7 +15,7 @@ public class CClass implements Serializable {
 
     @NotNull
     @NotEmpty
-    @Column(name="name_class")
+    @Column(name = "name_class")
     private String nameClass;
 
     private String description;

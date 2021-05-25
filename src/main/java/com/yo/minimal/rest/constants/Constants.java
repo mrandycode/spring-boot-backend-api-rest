@@ -5,9 +5,6 @@ public final class Constants {
     public Constants() {
     }
 
-    // Constante de precios
-    public static final String defaultPrice = "0.00";
-
     // Constantes para manejo de función UPLOAD IMAGE
     public static final String custoType = "PHOTO_CUSTOMER";
     public static final String itemType = "PHOTO_ITEM";
@@ -18,7 +15,6 @@ public final class Constants {
     public final static String UPLOADS_FOLDER_ITEM = System.getProperty("pathPhotoItem");
     public final static String PHOTO_ITEM_NOT_DISP = System.getProperty("fotonodispItem");
     public final static String PHOTO_CUSTO_NOT_DISP = System.getProperty("fotonodisp");
-
 
     // Constantes para manejo de facturas.
     public final static String TYPE_INVOICE_INVOICE = "I";
@@ -31,5 +27,11 @@ public final class Constants {
 
     // Valor de CorsOrigin
     public final static String URL_ORIGIN = System.getProperty("originUrl");
-    public final static String URL_ORIGIN_LOCAL = System.getProperty("originUrlLocal");
+    public final static String URL_ORIGIN_ECOMMERCE = System.getProperty("originUrlECommerce");
+
+    // Valores para imágenes
+    public final static String MESSAGE_IMAGE_RESIZE_SUCCESS = "Se ha re-dimensionado la imagen con éxito ";
+    public final static String MESSAGE_IMAGE_RESIZE_ERROR = "Se ha producido un error al re-dimensionar la imagen: ";
+    public final static  int IMAGE_WIDTH_SMALL = 300;
+    public final static  int IMAGE_HEIGHT_SMALL = 300;
 }

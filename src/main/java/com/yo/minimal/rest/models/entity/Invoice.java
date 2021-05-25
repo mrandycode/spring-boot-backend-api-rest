@@ -42,6 +42,11 @@ public class Invoice implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<InvoiceDetail> invoiceDetail;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "invoice_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<PaymentInvoice> paymentInvoices;
+
     @Column(name = "total_invoice", columnDefinition = "double default 0.0")
     private Double totalInvoice;
 
@@ -50,6 +55,11 @@ public class Invoice implements Serializable {
     private Double subTotalInvoice;
 
     private String user;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "invoice_status_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private InvoiceStatus invoiceStatus;
 
     @Column(name = "pos_payment")
     private Double posPayment;
@@ -118,8 +128,8 @@ public class Invoice implements Serializable {
         return createDate;
     }
 
-    public void setCreateDate() {
-        this.createDate = new Timestamp(System.currentTimeMillis());
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
     }
 
     public Customer getCustomer() {
@@ -146,6 +156,14 @@ public class Invoice implements Serializable {
         this.invoiceDetail = invoiceDetail;
     }
 
+    public List<PaymentInvoice> getPaymentInvoices() {
+        return paymentInvoices;
+    }
+
+    public void setPaymentInvoices(List<PaymentInvoice> paymentInvoices) {
+        this.paymentInvoices = paymentInvoices;
+    }
+
     public Double getTotalInvoice() {
         return totalInvoice;
     }
@@ -168,6 +186,14 @@ public class Invoice implements Serializable {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public InvoiceStatus getInvoiceStatus() {
+        return invoiceStatus;
+    }
+
+    public void setInvoiceStatus(InvoiceStatus invoiceStatus) {
+        this.invoiceStatus = invoiceStatus;
     }
 
     public Double getPosPayment() {
