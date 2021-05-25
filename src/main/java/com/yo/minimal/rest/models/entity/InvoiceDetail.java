@@ -7,12 +7,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "invoice_detail")
-public class InvoiceDetail implements Serializable {
-
-    // Constructor sin argumentos
-    public InvoiceDetail() {
-        super();
-    }
+public class  InvoiceDetail implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +28,12 @@ public class InvoiceDetail implements Serializable {
 
     @Column(name = "other_refund", columnDefinition = "int default 0")
     private Integer otherRefund;
+
+
+    // Constructor sin argumentos
+    public InvoiceDetail() {
+        super();
+    }
 
     public Long getId() {
         return id;

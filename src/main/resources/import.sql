@@ -1,5 +1,5 @@
 /* Populate tables */
-INSERT INTO customers (id, name, lastname, birthday, place_born, nacionality, genre, identification_id,  email, create_date , photo) VALUES(1, 'Andres', 'Guzman', '1985-01-30', 'Caracas', 'V', 'M', '1234567', 'profesor@bolsadeideas.com', '2017-08-28', '' );
+/*INSERT INTO customers (id, name, lastname, birthday, place_born, nacionality, genre, identification_id,  email, create_date , photo) VALUES(1, 'Andres', 'Guzman', '1985-01-30', 'Caracas', 'V', 'M', '1234567', 'profesor@bolsadeideas.com', '2017-08-28', '' );
 INSERT INTO customers (id, name, lastname, birthday, place_born, nacionality, genre, identification_id,  email, create_date , photo) VALUES(2, 'John', 'Doe',  '1985-01-30', 'Caracas', 'V', 'M', '1234567', 'john.doe1@gmail.com', '2017-08-28', '8113b6a0-8a02-45e8-8979-50fa006aa989_Koala.jpg' );
 INSERT INTO customers (id, name, lastname, birthday, place_born, nacionality, genre, identification_id,  email, create_date , photo) VALUES(3, 'Pedro', 'Guzman',  '1985-01-30', 'Caracas', 'V', 'M', '1234567', 'profesor2@bolsadeideas.com', '2017-08-28', '' );
 INSERT INTO customers (id, name, lastname, birthday, place_born, nacionality, genre, identification_id,  email, create_date , photo) VALUES(4, 'Luis', 'Doe',  '1985-01-30', 'Caracas', 'V', 'M', '1234567',  'john.doe2@gmail.com', '2017-08-28', '' );
@@ -27,9 +27,11 @@ INSERT INTO customers (id, name, lastname, birthday, place_born, nacionality, ge
 INSERT INTO customers (id, name, lastname, birthday, place_born, nacionality, genre, identification_id,  email, create_date , photo) VALUES(26, 'Toño', 'Doe',  '1985-01-30', 'Caracas', 'V', 'M', '1234567',  'johnd.doe@gmail.com', '2017-08-28', '' );
 INSERT INTO customers (id, name, lastname, birthday, place_born, nacionality, genre, identification_id,  email, create_date , photo) VALUES(27, 'Paco', 'Guzman',  '1985-01-30', 'Caracas', 'V', 'M', '1234567',  'profesorlp@bolsadeideas.com', '2017-08-28', '' );
 INSERT INTO customers (id, name, lastname, birthday, place_born, nacionality, genre, identification_id,  email, create_date , photo) VALUES(28, 'Osubna', 'Doe',  '1985-01-30', 'Caracas', 'V', 'M', '1234567',  'john.doe@gddmail.com', '2017-08-28', '' );
+*/
 
 /* Populate tabla productos */
-INSERT INTO item (name, name_media, description, observation, image_name, price, create_date, user, id_class, id_category, id_sub_category, status) VALUES('Franela negra estampada marinero','Franela Marinero', 'Solo caballeros', '', '', 2500.23, NOW(), 'acevallos', 1, 1, 3, 'A');
+
+/*INSERT INTO item (name, name_media, description, observation, image_name, price, create_date, user, id_class, id_category, id_sub_category, status) VALUES('Franela negra estampada marinero','Franela Marinero', 'Solo caballeros', '', '', 2500.23, NOW(), 'acevallos', 1, 1, 3, 'A');
 INSERT INTO item (name, name_media, description, observation, image_name, price, create_date, user, id_class, id_category, id_sub_category, status) VALUES('Franela playera estampada azul','Franela Flores Azul', 'Solo caballeros', '', '', 2500.23, NOW(), 'acevallos', 1, 1, 3, 'A');
 INSERT INTO item (name, name_media, description, observation, image_name, price, create_date, user, id_class, id_category, id_sub_category, status) VALUES('Franela serigrafia yo minimal - i love fridays','Franela I Love Fridays', 'Solo damas','', '', 3500.23, NOW(), 'acevallos', 1, 1, 2, 'A');
 INSERT INTO item (name, name_media, description, observation, image_name, price, create_date, user, id_class, id_category, id_sub_category, status) VALUES('Franela serigrafia yo minimal - where is the after','Franela Where is The After?', 'Solo caballeros','', '', 3500.23, NOW(), 'acevallos', 1, 1, 3, 'A');
@@ -49,7 +51,7 @@ INSERT INTO category (description, name_category, class_id) values ('JerseyBersk
 INSERT INTO category (description, name_category, class_id) values ('ZapatosYoMinimal',	'Zapatos Dark', 3);
 
 
-
+*/
 
 
 /* Creamos algunas facturas*/

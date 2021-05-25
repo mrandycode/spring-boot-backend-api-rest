@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,29 +35,29 @@ public class CategoryRestController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> findAllCategory() {
 
-        List<Category> categoryList;
-        Map<String, Object> response = new HashMap<>();
+        List<Category> categoryList = new ArrayList<>();
+//        Map<String, Object> response = new HashMap<>();
 
         try {
             categoryList = iCategoryServices.findAllCategory();
         } catch (DataAccessException | TransactionSystemException ex) {
-            response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
-            response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR);
-            response.put("error", "Causa : " + ex.getMostSpecificCause());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//            response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
+//            response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR);
+//            response.put("error", "Causa : " + ex.getMostSpecificCause());
+//            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         if (categoryList == null || categoryList.size() < 1) {
-            response.put("message", "No hay Categorias existentes en la base de datos");
-            response.put("cod", HttpStatus.NOT_FOUND.value());
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+//            response.put("message", "No hay Categorias existentes en la base de datos");
+//            response.put("cod", HttpStatus.NOT_FOUND.value());
+//            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-
-        response.put("categories", categoryList);
-        response.put("message", "Consulta Exitosa");
-        response.put("cod", HttpStatus.FOUND.value());
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return createResponse(null, "null", " Probando", HttpStatus.FOUND.value());
+//        response.put("categories", categoryList);
+//        response.put("message", "Consulta Exitosa");
+//        response.put("cod", HttpStatus.FOUND.value());
+//
+//        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /***************************************
@@ -98,9 +99,9 @@ public class CategoryRestController {
      ****************************************/
     @PostMapping("post")
     @ResponseBody
-    public ResponseEntity<?> saveCategoryById(   @Valid String categoryInput
-                                            , @ModelAttribute Category categoryDto
-                                            , BindingResult bindingResult) throws DataAccessException, TransactionSystemException, IOException {
+    public ResponseEntity<?> saveCategoryById(@Valid String categoryInput
+            , @ModelAttribute Category categoryDto
+            , BindingResult bindingResult) throws DataAccessException, TransactionSystemException, IOException {
 
         Map<String, Object> response = new HashMap<>();
 
@@ -142,9 +143,9 @@ public class CategoryRestController {
      ****************************************/
     @PutMapping("put")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> updateCategoryById( @Valid String categoryInput
-                                         , @ModelAttribute Category categoryDto
-                                         , BindingResult bindingResult) throws IOException {
+    public ResponseEntity<?> updateCategoryById(@Valid String categoryInput
+            , @ModelAttribute Category categoryDto
+            , BindingResult bindingResult) throws IOException {
 
         Map<String, Object> response = new HashMap<>();
         Category category = new ObjectMapper().readValue(categoryInput, Category.class);
@@ -190,7 +191,7 @@ public class CategoryRestController {
     }
 
     /***************************************
-     * @param
+     * @param classInput Request
      * @return Cambiar status Clase - Delete
      ****************************************/
     @ResponseStatus(HttpStatus.OK)
@@ -229,6 +230,18 @@ public class CategoryRestController {
         response.put("message", "La Clase " + aClass.getId() + "-" + aClass.getNameClass() + " ha sido actualizado con exito");
         response.put("cod", HttpStatus.OK.value());
 
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    private ResponseEntity<?> createResponse(Object _object,
+                                             String nameObject,
+                                             String message,
+                                             int code) {
+        Map<String, Object> response = new HashMap<>();
+
+        response.put(nameObject, _object);
+        response.put("message", message);
+        response.put("cod", code);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

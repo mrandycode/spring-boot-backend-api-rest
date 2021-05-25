@@ -36,6 +36,7 @@ public class User {
     @NotNull
     private String password;
 
+
     @NotNull
     @ManyToMany
     @JoinTable(name = "users_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
