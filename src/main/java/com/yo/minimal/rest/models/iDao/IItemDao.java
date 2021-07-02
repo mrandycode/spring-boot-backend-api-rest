@@ -31,4 +31,8 @@ public interface IItemDao extends PagingAndSortingRepository<Item, Long> {
             "or upper(itm.nameMedia) like concat('%', upper(:#{#item.nameMedia}), '%')" +
             "or upper (itm.description) like concat('%', upper(:#{#item.description}), '%') ")
     List<Item> findItemsByWords(@Param("item") Item item);
+
+    @Procedure("SP_UPDATE_PRICES")
+    String updatePrices();
+
 }

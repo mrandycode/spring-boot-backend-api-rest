@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "foreign_currencies")
+@Table(name = "foreign_currencies", uniqueConstraints = {@UniqueConstraint(columnNames = {"currencyType", "description"})})
 public class ForeignCurrency implements Serializable {
 
     @Id
@@ -23,6 +23,14 @@ public class ForeignCurrency implements Serializable {
     @NotEmpty
     @Column(columnDefinition = "varchar(3)")
     private String currencyType;
+
+    @NotNull
+    @Column(columnDefinition = "int(1)")
+    private int defaultCurrency;
+
+    @NotEmpty
+    @Column(columnDefinition = "varchar(100)")
+    private String description;
 
     @Column(name = "create_date")
     @Temporal(TemporalType.DATE)
@@ -58,6 +66,22 @@ public class ForeignCurrency implements Serializable {
 
     public void setCurrencyType(String currencyType) {
         this.currencyType = currencyType;
+    }
+
+    public int getDefaultCurrency() {
+        return defaultCurrency;
+    }
+
+    public void setDefaultCurrency(int defaultCurrency) {
+        this.defaultCurrency = defaultCurrency;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreateDate() {

@@ -17,17 +17,22 @@ public class ForeignCurrencyServicesImpl implements IForeignCurrencyServices {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ForeignCurrency> findAllForeignCurrency() { return (List<ForeignCurrency>) iForeignCurrencyDao.findAll(); }
+    public List<ForeignCurrency> findAllForeignCurrency() {
+        return (List<ForeignCurrency>) iForeignCurrencyDao.findAll();
+    }
 
     @Override
     @Transactional(readOnly = true)
-    public ForeignCurrency findByIdForeignCurrency (Long id) {
+    public ForeignCurrency findByIdForeignCurrency(Long id) {
+
         return iForeignCurrencyDao.findById(id).orElse(null);
     }
 
     @Override
     @Transactional
-    public ForeignCurrency saveForeignCurrency(ForeignCurrency foreignCurrency) { return iForeignCurrencyDao.save(foreignCurrency); }
+    public ForeignCurrency saveForeignCurrency(ForeignCurrency foreignCurrency) {
+        return iForeignCurrencyDao.save(foreignCurrency);
+    }
 
 
 }

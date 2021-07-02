@@ -1,34 +1,47 @@
 package com.yo.minimal.rest.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-public class PaymentMethod implements Serializable {
+public class ItemPrice implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String description;
+    @NotNull
+    private BigDecimal price;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="foreignCurrency_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "foreignCurrency_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private ForeignCurrency foreignCurrency;
 
+    @NotEmpty
     private String user;
 
     @Column(name = "create_date")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy H:m:s")
     private Date createDate;
 
-    @Column(name = "update_date")
     private Date updateDate;
 
-    public PaymentMethod() {
+    @PrePersist
+    private void prePersist() {
+        createDate = new Timestamp(System.currentTimeMillis());
+    }
+
+    public ItemPrice() {
         super();
     }
 
@@ -40,12 +53,12 @@ public class PaymentMethod implements Serializable {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public ForeignCurrency getForeignCurrency() {
@@ -79,4 +92,6 @@ public class PaymentMethod implements Serializable {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
+
+    private static final long serialVersionUID = 1L;
 }

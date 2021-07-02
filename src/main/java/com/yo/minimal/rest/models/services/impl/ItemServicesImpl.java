@@ -1,6 +1,8 @@
 package com.yo.minimal.rest.models.services.impl;
 
+import com.yo.minimal.rest.dto.CurrencyDto;
 import com.yo.minimal.rest.models.entity.Item;
+import com.yo.minimal.rest.models.entity.ItemPrice;
 import com.yo.minimal.rest.models.iDao.IItemDao;
 import com.yo.minimal.rest.models.services.interfaces.IItemServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemServicesImpl implements IItemServices {
@@ -47,6 +51,42 @@ public class ItemServicesImpl implements IItemServices {
     }
 
     @Override
+    @Transactional()
+    public Iterable<Item> saveItems(List<Item> items, CurrencyDto currency) {
+
+
+        items.forEach(
+                itm -> {
+                    List<ItemPrice> itemPrices = itm.getItemPrices()
+                            .stream()
+                            .filter(ip ->
+                                    ip.getForeignCurrency()
+                                            .getCurrencyType()
+                                            .equals(currency.getDefaultCurrency()[1]))
+                            .collect(Collectors.toList());
+
+                    itm.getItemPrices()
+                            .forEach(
+                                    ip -> {
+                                        if (ip.getForeignCurrency().getCurrencyType()
+                                                .equals(currency.getDefaultCurrency()[0])) {
+                                            ip.setPrice(new BigDecimal
+                                                    (currency.getPriceForeignDefault().intValue()
+                                                            * itemPrices.get(0).getPrice().intValue()));
+                                        }
+
+                                    }
+
+                            );
+
+                }
+        );
+
+
+        return iItemDao.saveAll(items);
+    }
+
+    @Override
     @Transactional
     public void updateStatusItemById(Long term, String status) {
         iItemDao.updateStatusItemById(term, status);
@@ -69,4 +109,11 @@ public class ItemServicesImpl implements IItemServices {
     public List<Item> findItemsByWords(Item item) {
         return iItemDao.findItemsByWords(item);
     }
+
+    @Override
+    @Transactional()
+    public String updateItemPrices() {
+        return iItemDao.updatePrices();
+    }
+
 }

@@ -1,7 +1,10 @@
 package com.yo.minimal.rest.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yo.minimal.rest.constants.Constants;
+import com.yo.minimal.rest.dto.CurrencyDto;
+import com.yo.minimal.rest.dto.ResponseJ;
 import com.yo.minimal.rest.models.entity.Invoice;
 import com.yo.minimal.rest.models.entity.Item;
 import com.yo.minimal.rest.models.services.interfaces.IItemServices;
@@ -453,4 +456,80 @@ public class ItemRestController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    /**************************************
+     * @apiNote Actualizacion de precios a las tasa USD/EUR dependiendo de como este el SP.
+     * @return Codigo y Mensaje de la BD o api.
+     ****************************************/
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("update/prices")
+    public ResponseEntity<?> updateItemPrices() throws IOException {
+        ResponseJ responseJ;
+        Map<String, Object> response = new HashMap<>();
+        try {
+            String res = iItemServices.updateItemPrices();
+            responseJ = new ObjectMapper().readValue(res, ResponseJ.class);
+
+        } catch (DataAccessException | TransactionSystemException ex) {
+            response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
+            response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.put("error", "Causa : " + ex.getMostSpecificCause());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        response.put("message", responseJ.getMessage());
+        response.put("cod", responseJ.getCod());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    /**************************************
+     * @apiNote Guardar productos de lotes
+     * @return Codigo y Mensaje de la BD o api.
+     ****************************************/
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("save/all")
+    public ResponseEntity<?> saveItems(
+            @Valid String itemInput,
+            @Valid String currencyInput
+            , @ModelAttribute Item itemDto
+            , BindingResult bindingResult) throws IOException {
+        Map<String, Object> response = new HashMap<>();
+
+        List<Item> items = new ObjectMapper()
+                .readValue(itemInput, new TypeReference<List<Item>>() {});
+        CurrencyDto currency = new ObjectMapper()
+                .readValue(currencyInput, CurrencyDto.class);
+        Iterable<Item> itemsNew;
+
+        if (bindingResult.hasErrors()) {
+            List<String> errorList = bindingResult.getFieldErrors()
+                    .stream()
+                    .map(err ->
+                            "El campo: '" + err.getField() + "' " + err.getDefaultMessage()
+                    ).collect(Collectors.toList());
+
+            response.put("errors", errorList);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            itemsNew = iItemServices.saveItems(items, currency);
+
+        } catch (DataAccessException | TransactionSystemException ex) {
+            response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
+            response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.put("error", "Causa : " + ex.getMostSpecificCause());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        response.put("message", "Los productos han sido creado con exito");
+        response.put("cod", HttpStatus.CREATED.value());
+        response.put("items", itemsNew);
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+
 }
