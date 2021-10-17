@@ -65,19 +65,21 @@ public class ItemServicesImpl implements IItemServices {
                                             .equals(currency.getDefaultCurrency()[1]))
                             .collect(Collectors.toList());
 
-                    itm.getItemPrices()
-                            .forEach(
-                                    ip -> {
-                                        if (ip.getForeignCurrency().getCurrencyType()
-                                                .equals(currency.getDefaultCurrency()[0])) {
-                                            ip.setPrice(new BigDecimal
-                                                    (currency.getPriceForeignDefault().intValue()
-                                                            * itemPrices.get(0).getPrice().intValue()));
+                    if (itm.getItemPrices().size() > 0) {
+                        itm.getItemPrices()
+                                .forEach(
+                                        ip -> {
+                                            if (ip.getForeignCurrency().getCurrencyType()
+                                                    .equals(currency.getDefaultCurrency()[0])) {
+                                                ip.setPrice(new BigDecimal
+                                                        (currency.getPriceForeignDefault().intValue()
+                                                                * itemPrices.get(0).getPrice().intValue()));
+                                            }
+
                                         }
 
-                                    }
-
-                            );
+                                );
+                    }
 
                 }
         );

@@ -26,6 +26,7 @@ public class SpringBootBackendApiRestApplication implements CommandLineRunner {
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
+        System.out.println("Origenes --> "  + Constants.URL_ORIGIN + " "+ Constants.URL_ORIGIN_ECOMMERCE);
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {

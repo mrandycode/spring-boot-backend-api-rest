@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "invoice_detail")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class  InvoiceDetail implements Serializable {
 
     @Id

@@ -30,8 +30,14 @@ public final class Constants {
     public final static String URL_ORIGIN_ECOMMERCE = System.getProperty("originUrlECommerce");
 
     // Valores para imágenes
+
     public final static String MESSAGE_IMAGE_RESIZE_SUCCESS = "Se ha re-dimensionado la imagen con éxito ";
     public final static String MESSAGE_IMAGE_RESIZE_ERROR = "Se ha producido un error al re-dimensionar la imagen: ";
-    public final static  int IMAGE_WIDTH_SMALL = 300;
-    public final static  int IMAGE_HEIGHT_SMALL = 300;
+    public final static int IMAGE_WIDTH_SMALL = 300;
+    public final static int IMAGE_HEIGHT_SMALL = 300;
+
+    // STORED PROCEDURES
+    public final static String QUERY_INVOICE_WITH_PAYMENTS = "CALL SP_GET_INVOICES_WITH_PAYMENTS";
+    public final static String SP_GET_INVOICES = "CALL SP_GET_INVOICES(:type)";
+
 }

@@ -29,4 +29,5 @@ public interface IInvoiceServices {
     public void updateInvoiceAsRefundProcessed (Invoice invoice);
 
     public Long getIdOriginal (Invoice invoice);
+
 }

@@ -20,6 +20,9 @@ public class PaymentMethod implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private ForeignCurrency foreignCurrency;
 
+    @Column(columnDefinition = "int(1) default 0")
+    private int status;
+
     private String user;
 
     @Column(name = "create_date")
@@ -54,6 +57,14 @@ public class PaymentMethod implements Serializable {
 
     public void setForeignCurrency(ForeignCurrency foreignCurrency) {
         this.foreignCurrency = foreignCurrency;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getUser() {

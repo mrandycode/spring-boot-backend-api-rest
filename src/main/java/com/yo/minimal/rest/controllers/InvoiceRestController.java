@@ -5,7 +5,11 @@ import com.yo.minimal.rest.constants.Constants;
 import com.yo.minimal.rest.models.entity.Customer;
 import com.yo.minimal.rest.models.entity.Invoice;
 import com.yo.minimal.rest.dto.ResponseJ;
+import com.yo.minimal.rest.models.entity.custom.InvoiceCustom;
+import com.yo.minimal.rest.models.entity.custom.InvoiceWithPayments;
+import com.yo.minimal.rest.models.iDao.IInvoiceWithPaymentsDao;
 import com.yo.minimal.rest.models.services.interfaces.IInvoiceServices;
+import com.yo.minimal.rest.models.services.interfaces.IInvoiceWithPaymentsServices;
 import com.yo.minimal.rest.models.services.interfaces.IItemServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -30,13 +34,14 @@ public class InvoiceRestController {
     private IInvoiceServices iInvoiceServices;
 
     @Autowired
-    private IItemServices iItemServices;
+    private IInvoiceWithPaymentsServices invoiceWithPaymentsServices;
 
     /***************************************
      * @param
      * @return Listado de Facturas
      ****************************************/
-    @GetMapping("get/invoice-all/{type}")
+//    @GetMapping("get/invoice-all/{type}")
+    @GetMapping("get/invoice-alls/{type}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> findInvoiceAll(@PathVariable String type) {
 
@@ -131,8 +136,6 @@ public class InvoiceRestController {
             // Si es devolución se trae el id de la FACTURA ORIGINAL, si es factura nueva se setea id a 0
             idOriginal = iInvoiceServices.getIdOriginal(invoice);
 
-            //TODO:Quitar este Set
-            invoice.setSubTotalInvoice(invoice.getTotalInvoice());
 
             invoice.setId(0L);
             invoiceNew = iInvoiceServices.saveInvoice(invoice);
@@ -214,4 +217,69 @@ public class InvoiceRestController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    /***************************************
+     * @return Listado de facturas con pagos
+     ****************************************/
+    @GetMapping("get/invoices-with-payments")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> getInvoiceWithPayments() {
+        List<InvoiceWithPayments> invoiceWithPayments;
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            invoiceWithPayments = invoiceWithPaymentsServices.getInvoiceWithPayments();
+        } catch (DataAccessException | TransactionSystemException ex) {
+            response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
+            response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("error", "Causa : " + ex.getMostSpecificCause());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (invoiceWithPayments == null) {
+            response.put("message", "No hay facturas para mostrar");
+            response.put("cod", HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+
+        response.put("message", "Consulta Exitosa");
+        response.put("cod", HttpStatus.FOUND.value());
+        response.put("invoiceWithPayments", invoiceWithPayments);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /***************************************
+     * @return Listado de facturas
+     ****************************************/
+    @GetMapping("get/invoice-all/{type}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> getInvoiceCustom(@PathVariable String type) {
+        List<InvoiceCustom> invoices;
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            invoices = invoiceWithPaymentsServices.getInvoices(type);
+        } catch (DataAccessException | TransactionSystemException ex) {
+            response.put("message", "Error generado por la Base de Datos -  Ex: " + ex.getMessage());
+            response.put("cod", HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("error", "Causa : " + ex.getMostSpecificCause());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (invoices == null) {
+            response.put("message", "No hay facturas para mostrar");
+            response.put("cod", HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+
+        response.put("message", "Consulta Exitosa");
+        response.put("cod", HttpStatus.FOUND.value());
+        response.put("invoices", invoices);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

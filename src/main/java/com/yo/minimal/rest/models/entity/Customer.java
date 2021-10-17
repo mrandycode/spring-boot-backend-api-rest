@@ -27,8 +27,6 @@ public class Customer implements Serializable {
     @Size(min = 4, max = 30)
     private String lastname;
 
-    @NotNull
-    @NotEmpty
     private String birthday;
 
     @Column(name = "place_born")
@@ -40,8 +38,6 @@ public class Customer implements Serializable {
     @Size(min = 1, max = 1)
     private String nacionality;
 
-    @NotNull
-    @NotEmpty
     @Size(min = 1, max = 1)
     private String genre;
 
@@ -53,9 +49,6 @@ public class Customer implements Serializable {
     @Column(name = "create_date")
     private String createDate;
 
-    @NotNull
-    @Column(unique = true)
-    @Email
     private String email;
 
     private String photo;

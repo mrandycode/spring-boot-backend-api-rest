@@ -15,7 +15,8 @@ public interface IInvoiceDao extends CrudRepository<Invoice, Long> {
     @Query("select distinct i from Invoice i join fetch i.customer c join fetch i.invoiceDetail l join fetch l.item where i.id =?1")
     Invoice findInvoiceByCustomerWithinAndInvoiceDetailWithinIteItem(Long id);
 
-    @Query("select distinct i from Invoice i join fetch i.customer c join fetch i.invoiceDetail l join fetch l.item where i.type =?1")
+    @Query("select distinct i from Invoice i join fetch i.customer c " +
+            "join fetch i.invoiceDetail l join fetch l.item where i.type =?1")
     List<Invoice> findInvoiceByType(String type);
 
     @Transactional
@@ -27,5 +28,6 @@ public interface IInvoiceDao extends CrudRepository<Invoice, Long> {
     String markRefundIntoInvoice(String model);
 
     Invoice findInvoiceByIdAndCustomer(Long id, Customer customer);
+
 
 }

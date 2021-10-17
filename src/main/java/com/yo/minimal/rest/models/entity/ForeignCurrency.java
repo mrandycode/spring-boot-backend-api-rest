@@ -32,6 +32,10 @@ public class ForeignCurrency implements Serializable {
     @Column(columnDefinition = "varchar(100)")
     private String description;
 
+    @NotNull
+    @Column(columnDefinition = "int default 0")
+    private int active;
+
     @Column(name = "create_date")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy H:m:s")
@@ -82,6 +86,14 @@ public class ForeignCurrency implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
 
     public Date getCreateDate() {
