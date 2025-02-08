@@ -88,17 +88,17 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <!--Libreria para Heroku - Solo para nube-->
-            <plugin>
-                <groupId>com.heroku.sdk</groupId>
-                <artifactId>heroku-maven-plugin</artifactId>
-                <version>3.0.2</version>
-                <!--Reemplaza el Procfile que pide Heroku -->
-                <configuration>
-                    <processTypes>
-                        <web>java $JAVA_OPTS -cp target/classes:target/dependency/* Main</web>
-                    </processTypes>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>com.heroku.sdk</groupId>-->
+<!--                <artifactId>heroku-maven-plugin</artifactId>-->
+<!--                <version>3.0.2</version>-->
+<!--                &lt;!&ndash;Reemplaza el Procfile que pide Heroku &ndash;&gt;-->
+<!--                <configuration>-->
+<!--                    <processTypes>-->
+<!--                        <web>java $JAVA_OPTS -cp target/classes:target/dependency/* Main</web>-->
+<!--                    </processTypes>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 </project>
