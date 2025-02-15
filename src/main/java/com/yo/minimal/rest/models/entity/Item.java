@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "item")
@@ -73,6 +74,11 @@ public class Item implements Serializable {
     @JoinColumn(name="attributesItem_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private AttributesItem attributesItem;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<ItemPrice> itemPrices;
 
     // Constructor sin argumentos.
     public Item() {
@@ -222,6 +228,18 @@ public class Item implements Serializable {
     public void setAttributesItem(AttributesItem attributesItem) {
         this.attributesItem = attributesItem;
     }
+
+    
+
+    public List<ItemPrice> getItemPrices() {
+        return itemPrices;
+    }
+
+    public void setItemPrices(List<ItemPrice> itemPrices) {
+        this.itemPrices = itemPrices;
+    }
+
+
 
     private static final long serialVersionUID = 1L;
 }
